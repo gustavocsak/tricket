@@ -15,3 +15,6 @@ db.on('open', () => {
     console.log('connected to database.');
     const server = app.listen(process.env.PORT || 8080, () => console.log('listening'));
 });
+
+const { Project } = require('../database/models/project.js');
+const { Ticket } = require('../database/models/ticket.js');
