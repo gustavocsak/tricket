@@ -18,3 +18,9 @@ db.on('open', () => {
 
 const { Project } = require('../database/models/project.js');
 const { Ticket } = require('../database/models/ticket.js');
+
+const dummy = [{ name: 'this is my project' }, { name: 'the bodybuilder project' }, { name: 'cornerbet' }];
+
+app.get('/projects', (req, res) => {
+    res.json(dummy);
+});
