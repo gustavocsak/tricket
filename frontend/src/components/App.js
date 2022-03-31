@@ -7,8 +7,6 @@ import Tickets from './Tickets.js';
 const App = (props) => {
     const [projectSelected, setProjectSelected] = useState('');
 
-    // useEffect();
-
     return (
         <>
             <Header />

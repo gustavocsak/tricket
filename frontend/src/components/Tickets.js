@@ -7,14 +7,16 @@ const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
 
     useEffect(() => {
-        axios
-            .get(`/project/${props.project}/tickets`)
-            .then((result) => {
-                setTicketsList(result.data.tickets);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if (props.project) {
+            axios
+                .get(`/project/${props.project}/tickets`)
+                .then((result) => {
+                    setTicketsList(result.data.tickets);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }, [props.project]);
 
     return (

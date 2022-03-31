@@ -29,7 +29,7 @@ const Projects = (props) => {
                     </Col>
                     <Col className="mb-3 mb-md-0">
                         <Form.Select onChange={(e) => props.setProjectSelected(e.target.value)}>
-                            <option>Select your project</option>
+                            <option value="">Select your project</option>
                             {projectList.map((project) => {
                                 return (
                                     <option key={project.id} value={project.id}>

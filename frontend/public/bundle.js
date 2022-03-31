@@ -38,8 +38,7 @@ var App = function App(props) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
       projectSelected = _useState2[0],
-      setProjectSelected = _useState2[1]; // useEffect();
-
+      setProjectSelected = _useState2[1];
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Header_js__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Projects_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
     setProjectSelected: setProjectSelected
@@ -147,7 +146,9 @@ var Projects = function Projects(props) {
     onChange: function onChange(e) {
       return props.setProjectSelected(e.target.value);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", null, "Select your project"), projectList.map(function (project) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+    value: ""
+  }, "Select your project"), projectList.map(function (project) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
       key: project.id,
       value: project.id
@@ -238,11 +239,13 @@ var Tickets = function Tickets(props) {
       setTicketsList = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get("/project/".concat(props.project, "/tickets")).then(function (result) {
-      setTicketsList(result.data.tickets);
-    })["catch"](function (error) {
-      console.log(error);
-    });
+    if (props.project) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/project/".concat(props.project, "/tickets")).then(function (result) {
+        setTicketsList(result.data.tickets);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }, [props.project]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: "p-5"
