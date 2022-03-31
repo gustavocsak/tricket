@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from './Header.js';
+import Projects from './Projects.js';
 
 const App = (props) => {
     return (
         <>
-            <Header></Header>
-            <h1>Hello</h1>
+            <Header />
+            <Projects />
         </>
     );
 };
