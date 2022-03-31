@@ -41,7 +41,9 @@ const Projects = (props) => {
                     </Col>
 
                     <Col md="auto">
-                        <Button variant="primary">Add new project</Button>
+                        <Button variant="primary" onClick={() => props.setShowProjectForm(true)}>
+                            Add new project
+                        </Button>
                     </Col>
                 </Row>
             </Container>
