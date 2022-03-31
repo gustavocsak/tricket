@@ -11,7 +11,7 @@ const Projects = (props) => {
 
     useEffect(() => {
         axios
-            .get('/projects')
+            .get('/project')
             .then((result) => {
                 setProjectList(result.data);
             })
@@ -24,15 +24,15 @@ const Projects = (props) => {
         <>
             <Container className="p-5">
                 <Row>
-                    <Col md="auto">
+                    <Col md="auto mb-2 mb-md-0">
                         <h3>Project:</h3>
                     </Col>
-                    <Col>
+                    <Col className="mb-3 mb-md-0">
                         <Form.Select onChange={(e) => props.setProjectSelected(e.target.value)}>
                             <option>Select your project</option>
                             {projectList.map((project) => {
                                 return (
-                                    <option key={project.name} value={project.name}>
+                                    <option key={project.id} value={project.id}>
                                         {project.name}
                                     </option>
                                 );

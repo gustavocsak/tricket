@@ -7,11 +7,13 @@ import Tickets from './Tickets.js';
 const App = (props) => {
     const [projectSelected, setProjectSelected] = useState('');
 
+    // useEffect();
+
     return (
         <>
             <Header />
             <Projects setProjectSelected={setProjectSelected} />
-            <Tickets />
+            {projectSelected ? <Tickets project={projectSelected} /> : <></>}
         </>
     );
 };
