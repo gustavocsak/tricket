@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Accordion } from 'react-bootstrap';
 import Ticket from './Ticket.js';
 
 const Tickets = (props) => {
@@ -20,11 +20,11 @@ const Tickets = (props) => {
     return (
         <>
             <Container className="p-5">
-                <ul>
-                    {ticketsList.map((ticket) => {
-                        return <li key={ticket.title}>{ticket.title}</li>;
-                    })}
-                </ul>
+                <Accordion>
+                    {ticketsList.map((ticket) => (
+                        <Ticket key={ticket.author} ticket={ticket} />
+                    ))}
+                </Accordion>
             </Container>
         </>
     );
