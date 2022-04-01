@@ -49,6 +49,11 @@ const dummy = [
             { title: 'start logo', author: 'david' },
         ],
     },
+    {
+        name: 'noticket the project',
+        id: '4',
+        tickets: [],
+    },
 ];
 
 app.get('/project', (req, res) => {
