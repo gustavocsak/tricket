@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Row, Col, CloseButton, Button } from 'react-bootstrap';
 
-const TicketForm = () => {
+const TicketForm = (props) => {
     const [ticket, setTicket] = useState({});
 
     const setField = (field, value) => {
@@ -37,9 +37,9 @@ const TicketForm = () => {
     };
 
     return (
-        <Container className="p-5 mt-5 border">
+        <Container className="p-5 mt-5 mb-3 border">
             <Form onSubmit={(event) => handleTicketSubmission(event)}>
-                <CloseButton className="float-end" />
+                <CloseButton className="float-end" onClick={() => props.setShowTicketForm(false)} />
 
                 <Form.Group className="mb-4">
                     <Form.Label>Ticket Title</Form.Label>
@@ -76,7 +76,9 @@ const TicketForm = () => {
             <Button className="me-3" variant="success">
                 Add ticket
             </Button>
-            <Button variant="danger">Cancel</Button>
+            <Button variant="danger" onClick={() => props.setShowTicketForm(false)}>
+                Cancel
+            </Button>
         </Container>
     );
 };

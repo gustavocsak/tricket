@@ -34,9 +34,9 @@ const Tickets = (props) => {
                 </Accordion>
             </Container>
             <Container>
-                <TicketProjectControl />
+                <TicketProjectControl setShowTicketForm={setShowTicketForm} />
             </Container>
-            <Container>{showTicketForm ? <TicketForm /> : <></>}</Container>
+            <Container>{showTicketForm ? <TicketForm setShowTicketForm={setShowTicketForm} /> : <></>}</Container>
         </>
     );
 };
