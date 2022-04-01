@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header.js';
 import Projects from './Projects.js';
-import { useState } from 'react';
 import Tickets from './Tickets.js';
+import ProjectForm from './ProjectForm.js';
 
 const App = (props) => {
     const [projectSelected, setProjectSelected] = useState('');
+    const [showProjectForm, setShowProjectForm] = useState(false);
+    const [projectPosted, setProjectPosted] = useState(false);
 
     return (
         <>
             <Header />
-            <Projects setProjectSelected={setProjectSelected} />
+            <Projects setProjectSelected={setProjectSelected} setShowProjectForm={setShowProjectForm} />
+            {showProjectForm ? <ProjectForm setShowProjectForm={setShowProjectForm} /> : <></>}
             {projectSelected ? <Tickets project={projectSelected} /> : <></>}
         </>
     );

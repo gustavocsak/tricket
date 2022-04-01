@@ -62,3 +62,9 @@ app.get('/project/:id/tickets', (req, res) => {
     });
     res.json(project);
 });
+
+app.post('/project', (req, res) => {
+    // put this logic in a middleware later:
+
+    res.json(req.body);
+});
