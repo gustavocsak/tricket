@@ -155,6 +155,10 @@ var ProjectForm = function ProjectForm(props) {
       showSuccessSubmission = _useState6[0],
       setShowSuccessSubmission = _useState6[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    setShowSuccessSubmission(false);
+  }, []);
+
   var setField = function setField(field, value) {
     setProjectInfo(_objectSpread(_objectSpread({}, projectInfo), {}, _defineProperty({}, field, value)));
   };
@@ -188,12 +192,7 @@ var ProjectForm = function ProjectForm(props) {
       setErrors(errors);
     } else {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/project', projectInfo).then(function (result) {
-        if (result.status === 200) {
-          setShowSuccessSubmission(true);
-          setTimeout(function () {
-            return setShowSuccessSubmission(false);
-          }, 4000);
-        }
+        setShowSuccessSubmission(true);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -220,7 +219,7 @@ var ProjectForm = function ProjectForm(props) {
     onChange: function onChange(e) {
       return setField('name', e.target.value);
     },
-    isInvalid: errors.project
+    isInvalid: errors.name
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Control.Feedback, {
     type: "invalid"
   }, errors.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Group, {

@@ -1,11 +1,15 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Container, CloseButton, Button, Alert } from 'react-bootstrap';
 
 const ProjectForm = (props) => {
     const [projectInfo, setProjectInfo] = useState({});
     const [errors, setErrors] = useState({});
     const [showSuccessSubmission, setShowSuccessSubmission] = useState(false);
+
+    useEffect(() => {
+        setShowSuccessSubmission(false);
+    }, []);
 
     const setField = (field, value) => {
         setProjectInfo({
@@ -46,10 +50,7 @@ const ProjectForm = (props) => {
             axios
                 .post('/project', projectInfo)
                 .then((result) => {
-                    if (result.status === 200) {
-                        setShowSuccessSubmission(true);
-                        setTimeout(() => setShowSuccessSubmission(false), 4000);
-                    }
+                    setShowSuccessSubmission(true);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -69,7 +70,7 @@ const ProjectForm = (props) => {
                         type="text"
                         placeholder="Enter your project name"
                         onChange={(e) => setField('name', e.target.value)}
-                        isInvalid={errors.project}
+                        isInvalid={errors.name}
                     />
                     <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                 </Form.Group>
