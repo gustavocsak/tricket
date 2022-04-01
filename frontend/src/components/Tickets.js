@@ -2,10 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container, Accordion } from 'react-bootstrap';
 import Ticket from './Ticket.js';
+import TicketForm from './TicketForm.js';
 import TicketProjectControl from './TicketProjectControl.js';
 
 const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
+    const [showTicketForm, setShowTicketForm] = useState(false);
 
     useEffect(() => {
         if (props.project) {
@@ -34,6 +36,7 @@ const Tickets = (props) => {
             <Container>
                 <TicketProjectControl />
             </Container>
+            <Container>{showTicketForm ? <TicketForm /> : <></>}</Container>
         </>
     );
 };
