@@ -150,6 +150,11 @@ var ProjectForm = function ProjectForm(props) {
       errors = _useState4[0],
       setErrors = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      showSuccessSubmission = _useState6[0],
+      setShowSuccessSubmission = _useState6[1];
+
   var setField = function setField(field, value) {
     setProjectInfo(_objectSpread(_objectSpread({}, projectInfo), {}, _defineProperty({}, field, value)));
   };
@@ -182,6 +187,16 @@ var ProjectForm = function ProjectForm(props) {
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/project', projectInfo).then(function (result) {
+        if (result.status === 200) {
+          setShowSuccessSubmission(true);
+          setTimeout(function () {
+            return setShowSuccessSubmission(false);
+          }, 4000);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
       console.log('information posted ');
     }
   };
@@ -227,9 +242,9 @@ var ProjectForm = function ProjectForm(props) {
     isInvalid: errors.author
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Control.Feedback, {
     type: "invalid"
-  }, errors.author)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, errors.author)), showSuccessSubmission ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
     variant: "success"
-  }, "Success! Your Project information was posted and added to your list!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, "Success! Your Project information was posted and added to your list!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
     variant: "success",
     className: "m-1",
     type: "submit"

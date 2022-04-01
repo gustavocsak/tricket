@@ -5,6 +5,7 @@ import { Form, Container, CloseButton, Button, Alert } from 'react-bootstrap';
 const ProjectForm = (props) => {
     const [projectInfo, setProjectInfo] = useState({});
     const [errors, setErrors] = useState({});
+    const [showSuccessSubmission, setShowSuccessSubmission] = useState(false);
 
     const setField = (field, value) => {
         setProjectInfo({
@@ -42,6 +43,17 @@ const ProjectForm = (props) => {
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
         } else {
+            axios
+                .post('/project', projectInfo)
+                .then((result) => {
+                    if (result.status === 200) {
+                        setShowSuccessSubmission(true);
+                        setTimeout(() => setShowSuccessSubmission(false), 4000);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             console.log('information posted ');
         }
     };
@@ -82,7 +94,11 @@ const ProjectForm = (props) => {
                     <Form.Control.Feedback type="invalid">{errors.author}</Form.Control.Feedback>
                 </Form.Group>
 
-                <Alert variant="success">Success! Your Project information was posted and added to your list!</Alert>
+                {showSuccessSubmission ? (
+                    <Alert variant="success">Success! Your Project information was posted and added to your list!</Alert>
+                ) : (
+                    <></>
+                )}
 
                 <Button variant="success" className="m-1" type="submit">
                     Add Project
