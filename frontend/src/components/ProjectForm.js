@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Form, Container, CloseButton, Button } from 'react-bootstrap';
+import { Form, Container, CloseButton, Button, Alert } from 'react-bootstrap';
 
 const ProjectForm = (props) => {
     const [projectInfo, setProjectInfo] = useState({});
@@ -14,7 +14,7 @@ const ProjectForm = (props) => {
     };
 
     const formDataValidation = () => {
-        const { name, description, author } = projectInfo;
+        const { name, author } = projectInfo;
 
         const errors = {};
 
@@ -81,6 +81,8 @@ const ProjectForm = (props) => {
                     />
                     <Form.Control.Feedback type="invalid">{errors.author}</Form.Control.Feedback>
                 </Form.Group>
+
+                <Alert variant="success">Success! Your Project information was posted and added to your list!</Alert>
 
                 <Button variant="success" className="m-1" type="submit">
                     Add Project

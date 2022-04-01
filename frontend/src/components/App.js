@@ -7,6 +7,7 @@ import ProjectForm from './ProjectForm.js';
 const App = (props) => {
     const [projectSelected, setProjectSelected] = useState('');
     const [showProjectForm, setShowProjectForm] = useState(false);
+    const [projectPosted, setProjectPosted] = useState(false);
 
     return (
         <>
