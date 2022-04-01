@@ -12,7 +12,7 @@ const Tickets = (props) => {
     useEffect(() => {
         if (props.project) {
             axios
-                .get(`/project/${props.project}/tickets`)
+                .get(`/project/${props.project}/ticket`)
                 .then((result) => {
                     setTicketsList(result.data.tickets);
                 })

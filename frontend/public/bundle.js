@@ -155,10 +155,6 @@ var ProjectForm = function ProjectForm(props) {
       showSuccessSubmission = _useState6[0],
       setShowSuccessSubmission = _useState6[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    setShowSuccessSubmission(false);
-  }, []);
-
   var setField = function setField(field, value) {
     setProjectInfo(_objectSpread(_objectSpread({}, projectInfo), {}, _defineProperty({}, field, value)));
   };
@@ -392,7 +388,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Form.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/CloseButton.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Alert.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -467,7 +464,7 @@ var TicketForm = function TicketForm(props) {
       setErrors(errors);
     } else {
       axios__WEBPACK_IMPORTED_MODULE_1___default().post("/project/".concat(props.projectId, "/ticket"), ticket).then(function (result) {
-        console.log('im here!');
+        console.log(result);
         setShowSuccessSubmission(true);
       })["catch"](function (error) {
         console.log(error);
@@ -527,13 +524,13 @@ var TicketForm = function TicketForm(props) {
     value: "closed"
   }, "Closed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Control.Feedback, {
     type: "invalid"
-  }, errors.status)), showSuccessSubmission ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Alert, {
+  }, errors.status)), showSuccessSubmission ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
     variant: "success"
-  }, "Success! Your Ticket information was posted and added to your project list!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, "Success! Your Ticket information was posted and added to your project list!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "me-3",
     variant: "success",
     type: "submit"
-  }, "Add ticket"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, "Add ticket"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
     variant: "danger",
     onClick: function onClick() {
       return props.setShowTicketForm(false);
@@ -630,7 +627,7 @@ var Tickets = function Tickets(props) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (props.project) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/project/".concat(props.project, "/tickets")).then(function (result) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/project/".concat(props.project, "/ticket")).then(function (result) {
         setTicketsList(result.data.tickets);
       })["catch"](function (error) {
         console.log(error);

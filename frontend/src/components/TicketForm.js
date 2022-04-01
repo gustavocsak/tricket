@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, Row, Col, CloseButton, Button } from 'react-bootstrap';
+import { Container, Form, Alert, CloseButton, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 const TicketForm = (props) => {
@@ -47,7 +47,8 @@ const TicketForm = (props) => {
             axios
                 .post(`/project/${props.projectId}/ticket`, ticket)
                 .then((result) => {
-                    console.log('im here!');
+                    console.log(result);
+
                     setShowSuccessSubmission(true);
                 })
                 .catch((error) => {

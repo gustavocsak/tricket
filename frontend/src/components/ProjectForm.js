@@ -7,10 +7,6 @@ const ProjectForm = (props) => {
     const [errors, setErrors] = useState({});
     const [showSuccessSubmission, setShowSuccessSubmission] = useState(false);
 
-    useEffect(() => {
-        setShowSuccessSubmission(false);
-    }, []);
-
     const setField = (field, value) => {
         setProjectInfo({
             ...projectInfo,

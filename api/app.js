@@ -60,7 +60,7 @@ app.get('/project', (req, res) => {
     res.json(dummy);
 });
 
-app.get('/project/:id/tickets', (req, res) => {
+app.get('/project/:id/ticket', (req, res) => {
     const { id } = req.params;
     const project = dummy.find((project) => {
         return project.id == id;
@@ -72,4 +72,10 @@ app.post('/project', (req, res) => {
     // put this logic in a middleware later:
 
     res.json(req.body);
+});
+
+app.post('/project/:id/ticket', (req, res) => {
+    console.log(req.body);
+    // do something with req.body
+    res.json({ message: 'you got it!' });
 });
