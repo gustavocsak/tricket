@@ -36,7 +36,7 @@ const Tickets = (props) => {
             <Container>
                 <TicketProjectControl setShowTicketForm={setShowTicketForm} />
             </Container>
-            <Container>{showTicketForm ? <TicketForm setShowTicketForm={setShowTicketForm} /> : <></>}</Container>
+            <Container>{showTicketForm ? <TicketForm projectId={props.project} setShowTicketForm={setShowTicketForm} /> : <></>}</Container>
         </>
     );
 };
