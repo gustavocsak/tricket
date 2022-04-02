@@ -7,10 +7,6 @@ const ProjectForm = (props) => {
     const [errors, setErrors] = useState({});
     const [showSuccessSubmission, setShowSuccessSubmission] = useState(false);
 
-    useEffect(() => {
-        setShowSuccessSubmission(false);
-    }, []);
-
     const setField = (field, value) => {
         setProjectInfo({
             ...projectInfo,
@@ -48,14 +44,14 @@ const ProjectForm = (props) => {
             setErrors(errors);
         } else {
             axios
-                .post('/project', projectInfo)
+                .post('/api/v1/projects', projectInfo)
                 .then((result) => {
+                    props.handleProjectPosted();
                     setShowSuccessSubmission(true);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            console.log('information posted ');
         }
     };
 

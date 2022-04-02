@@ -18,10 +18,7 @@ db.on('open', () => {
     const server = app.listen(process.env.PORT || 8080, () => console.log('listening'));
 });
 
-const { Project } = require('../database/models/project.js');
-const { Ticket } = require('../database/models/ticket.js');
-
-const dummy = [
+let dummy = [
     {
         name: 'this is my project',
         id: '1',
@@ -49,22 +46,41 @@ const dummy = [
             { title: 'start logo', author: 'david' },
         ],
     },
+    {
+        name: 'noticket the project',
+        id: '4',
+        tickets: [],
+    },
 ];
 
-app.get('/project', (req, res) => {
-    res.json(dummy);
-});
+const router = require('./routes/index.js');
+app.use('/api/v1', router);
 
-app.get('/project/:id/tickets', (req, res) => {
-    const { id } = req.params;
-    const project = dummy.find((project) => {
-        return project.id == id;
-    });
-    res.json(project);
-});
+// app.get('/project', (req, res) => {
+//     res.json(dummy);
+// });
 
-app.post('/project', (req, res) => {
-    // put this logic in a middleware later:
+// app.get('/project/:id/ticket', (req, res) => {
+//     const { id } = req.params;
+//     const project = dummy.find((project) => {
+//         return project.id == id;
+//     });
+//     res.json(project);
+// });
 
-    res.json(req.body);
-});
+// app.post('/project', (req, res) => {
+//     // put this logic in a middleware later:
+
+//     res.json(req.body);
+// });
+
+// app.post('/project/:id/ticket', (req, res) => {
+//     let ticket = new Ticket(req.body);
+//     dummy.forEach((element) => {
+//         if (element.id == req.params.id) {
+//             element.tickets.push(ticket);
+//         }
+//     });
+//     // do something with req.body
+//     res.json({ message: 'you got it!' });
+// });
