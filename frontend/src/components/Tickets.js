@@ -8,11 +8,12 @@ import TicketProjectControl from './TicketProjectControl.js';
 const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
     const [showTicketForm, setShowTicketForm] = useState(false);
+    const [ticketAdded, setTicketAdded] = useState(false);
 
     useEffect(() => {
         if (props.project) {
             axios
-                .get(`/project/${props.project}/ticket`)
+                .get(`/api/v1/projects/${props.project}/tickets`)
                 .then((result) => {
                     setTicketsList(result.data.tickets);
                 })
@@ -20,23 +21,29 @@ const Tickets = (props) => {
                     console.log(error);
                 });
         }
-    }, [props.project]);
+    }, [props.project, ticketAdded]);
+
+    const handleTicketAdded = () => {
+        setTicketAdded(!ticketAdded);
+    };
 
     return (
         <>
             <Container className="p-5">
                 <Accordion>
-                    {ticketsList.length ? (
-                        ticketsList.map((ticket) => <Ticket key={ticket.author} ticket={ticket} />)
-                    ) : (
-                        <h3>No tickets to display</h3>
-                    )}
+                    {ticketsList ? ticketsList.map((ticket, index) => <Ticket key={index} ticket={ticket} />) : <h3>No tickets to display</h3>}
                 </Accordion>
             </Container>
             <Container>
                 <TicketProjectControl setShowTicketForm={setShowTicketForm} />
             </Container>
-            <Container>{showTicketForm ? <TicketForm projectId={props.project} setShowTicketForm={setShowTicketForm} /> : <></>}</Container>
+            <Container>
+                {showTicketForm ? (
+                    <TicketForm handleTicketAdded={handleTicketAdded} projectId={props.project} setShowTicketForm={setShowTicketForm} />
+                ) : (
+                    <></>
+                )}
+            </Container>
         </>
     );
 };

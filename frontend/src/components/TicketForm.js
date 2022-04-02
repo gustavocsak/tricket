@@ -15,7 +15,7 @@ const TicketForm = (props) => {
     };
 
     const formDataValidation = () => {
-        const { title, description, status } = ticket;
+        const { title, description, status, author } = ticket;
 
         const errors = {};
 
@@ -25,6 +25,12 @@ const TicketForm = (props) => {
             errors.title = 'Ticket title must not be blank.';
         } else if (title.length > 30) {
             errors.name = 'Ticket title must be less than 30 characters.';
+        }
+
+        if (!author || author == '') {
+            errors.author = 'Ticket author must not be blank.';
+        } else if (author.length > 30) {
+            errors.author = 'Ticket author must be less than 30 characters.';
         }
 
         if (!status || status == '') {
@@ -54,7 +60,7 @@ const TicketForm = (props) => {
                 .catch((error) => {
                     console.log(error);
                 });
-            console.log('information posted ');
+            props.handleTicketAdded();
         }
     };
 
@@ -71,7 +77,18 @@ const TicketForm = (props) => {
                         onChange={(e) => setField('title', e.target.value)}
                         isInvalid={errors.title}
                     />
-                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">{errors.title}</Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mb-4">
+                    <Form.Label>Ticket Opened by</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter the author for this ticket"
+                        onChange={(e) => setField('author', e.target.value)}
+                        isInvalid={errors.author}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.author}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-4">

@@ -44,14 +44,14 @@ const ProjectForm = (props) => {
             setErrors(errors);
         } else {
             axios
-                .post('/project', projectInfo)
+                .post('/api/v1/projects', projectInfo)
                 .then((result) => {
+                    props.handleProjectPosted();
                     setShowSuccessSubmission(true);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            console.log('information posted ');
         }
     };
 

@@ -9,11 +9,15 @@ const App = (props) => {
     const [showProjectForm, setShowProjectForm] = useState(false);
     const [projectPosted, setProjectPosted] = useState(false);
 
+    const handleProjectPosted = () => {
+        setProjectPosted(!projectPosted);
+    };
+
     return (
         <>
             <Header />
-            <Projects setProjectSelected={setProjectSelected} setShowProjectForm={setShowProjectForm} />
-            {showProjectForm ? <ProjectForm setShowProjectForm={setShowProjectForm} /> : <></>}
+            <Projects projectPosted={projectPosted} setProjectSelected={setProjectSelected} setShowProjectForm={setShowProjectForm} />
+            {showProjectForm ? <ProjectForm handleProjectPosted={handleProjectPosted} setShowProjectForm={setShowProjectForm} /> : <></>}
             {projectSelected ? <Tickets project={projectSelected} /> : <></>}
         </>
     );

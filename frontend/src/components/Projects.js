@@ -11,14 +11,14 @@ const Projects = (props) => {
 
     useEffect(() => {
         axios
-            .get('/project')
+            .get('/api/v1/projects')
             .then((result) => {
                 setProjectList(result.data);
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, [props.projectPosted]);
 
     return (
         <>
@@ -32,7 +32,7 @@ const Projects = (props) => {
                             <option value="">Select your project</option>
                             {projectList.map((project) => {
                                 return (
-                                    <option key={project.id} value={project.id}>
+                                    <option key={project._id} value={project._id}>
                                         {project.name}
                                     </option>
                                 );
