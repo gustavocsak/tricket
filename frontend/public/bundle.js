@@ -365,15 +365,10 @@ var Ticket = function Ticket(props) {
   var _props$ticket = props.ticket,
       author = _props$ticket.author,
       title = _props$ticket.title,
-      id = _props$ticket.id;
+      _id = _props$ticket._id;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_1__["default"].Item, {
-    eventKey: id,
-    key: id
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_1__["default"].Header, {
-    style: {
-      fontWeight: 'bold'
-    }
-  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, author));
+    eventKey: _id
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_1__["default"].Header, null, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap_Accordion__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, author));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Ticket);
@@ -477,13 +472,12 @@ var TicketForm = function TicketForm(props) {
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/project/".concat(props.projectId, "/ticket"), ticket).then(function (result) {
-        console.log(result);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/v1/projects/".concat(props.projectId, "/tickets"), ticket).then(function (result) {
+        props.handleTicketAdded();
         setShowSuccessSubmission(true);
       })["catch"](function (error) {
         console.log(error);
       });
-      props.handleTicketAdded();
     }
   };
 
@@ -658,7 +652,7 @@ var Tickets = function Tickets(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (props.project) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/v1/projects/".concat(props.project, "/tickets")).then(function (result) {
-        setTicketsList(result.data.tickets);
+        setTicketsList(result.data);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -671,7 +665,7 @@ var Tickets = function Tickets(props) {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
     className: "p-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], null, ticketsList ? ticketsList.map(function (ticket, index) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], null, ticketsList.length ? ticketsList.map(function (ticket, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_Ticket_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: index,
       ticket: ticket

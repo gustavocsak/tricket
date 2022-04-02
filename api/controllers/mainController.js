@@ -28,13 +28,40 @@ const postProject = (req, res, next) => {
 const getTickets = (req, res, next) => {
     const id = req.params.id;
 
-    Ticket.find({})
+    let ticketsArray = [];
+
+    Project.findOne({ _id: id })
         .exec()
         .then((result) => {
-            res.status(200).json(result);
+            ticketsArray = result.tickets;
+            console.log(ticketsArray);
+            res.status(200).json(ticketsArray);
         })
         .catch((error) => {
-            console.log(error);
+            res.status(500).json(error);
+        });
+};
+
+const postTicket = (req, res, next) => {
+    const id = req.params.id;
+
+    Project.findOne({ _id: id })
+        .exec()
+        .then((result) => {
+            let ticket = new Ticket(req.body);
+            result.tickets.push(ticket);
+
+            result
+                .save()
+                .then((item) => {
+                    res.json({ message: 'Ticket added!' });
+                })
+                .catch((error) => {
+                    res.json(error);
+                });
+        })
+        .catch((error) => {
+            res.json(error);
         });
 };
 
@@ -42,4 +69,5 @@ module.exports = {
     getProjects,
     postProject,
     getTickets,
+    postTicket,
 };
