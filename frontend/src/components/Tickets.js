@@ -15,7 +15,7 @@ const Tickets = (props) => {
             axios
                 .get(`/api/v1/projects/${props.project}/tickets`)
                 .then((result) => {
-                    setTicketsList(result.data.tickets);
+                    setTicketsList(result.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -31,7 +31,7 @@ const Tickets = (props) => {
         <>
             <Container className="p-5">
                 <Accordion>
-                    {ticketsList ? ticketsList.map((ticket, index) => <Ticket key={index} ticket={ticket} />) : <h3>No tickets to display</h3>}
+                    {ticketsList.length ? ticketsList.map((ticket, index) => <Ticket key={index} ticket={ticket} />) : <h3>No tickets to display</h3>}
                 </Accordion>
             </Container>
             <Container>

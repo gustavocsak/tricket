@@ -51,16 +51,14 @@ const TicketForm = (props) => {
             setErrors(errors);
         } else {
             axios
-                .post(`/project/${props.projectId}/ticket`, ticket)
+                .post(`/api/v1/projects/${props.projectId}/tickets`, ticket)
                 .then((result) => {
-                    console.log(result);
-
+                    props.handleTicketAdded();
                     setShowSuccessSubmission(true);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            props.handleTicketAdded();
         }
     };
 

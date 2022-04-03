@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const { TicketSchema } = require('./Ticket.js');
+
 const ProjectSchema = new Schema({
     name: { type: String, maxlength: 30, required: true },
     author: { type: String, maxlength: 30, required: true },
-    tickets: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }],
+    tickets: [TicketSchema],
 });
 
 exports.ProjectSchema = ProjectSchema;
