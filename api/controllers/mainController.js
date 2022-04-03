@@ -27,16 +27,15 @@ const postProject = (req, res, next) => {
 
 const getTickets = (req, res, next) => {
     const id = req.params.id;
-
-    let ticketsArray = [];
+    console.log(id);
 
     Project.findOne({ _id: id })
-        .exec()
+        .populate('tickets')
         .then((result) => {
-            ticketsArray = result.tickets;
-            res.status(200).json(ticketsArray);
+            res.json(result);
         })
         .catch((error) => {
+            console.log('fiirst error');
             res.status(500).json(error);
         });
 };
@@ -48,7 +47,17 @@ const postTicket = (req, res, next) => {
         .exec()
         .then((result) => {
             let ticket = new Ticket(req.body);
-            result.tickets.push(ticket);
+
+            ticket
+                .save()
+                .then((item) => {
+                    console.log(item);
+                })
+                .catch((error) => {
+                    res.json(error);
+                });
+
+            result.tickets.push(ticket._id);
 
             result
                 .save()

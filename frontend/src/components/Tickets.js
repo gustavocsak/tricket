@@ -15,7 +15,7 @@ const Tickets = (props) => {
             axios
                 .get(`/api/v1/projects/${props.project}/tickets`)
                 .then((result) => {
-                    setTicketsList(result.data);
+                    setTicketsList(result.data.tickets);
                 })
                 .catch((error) => {
                     console.log(error);
