@@ -34,7 +34,6 @@ const getTickets = (req, res, next) => {
         .exec()
         .then((result) => {
             ticketsArray = result.tickets;
-            console.log(ticketsArray);
             res.status(200).json(ticketsArray);
         })
         .catch((error) => {

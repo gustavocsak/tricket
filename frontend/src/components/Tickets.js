@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Accordion } from 'react-bootstrap';
-import Ticket from './Ticket.js';
+import { Container } from 'react-bootstrap';
 import TicketForm from './TicketForm.js';
 import TicketProjectControl from './TicketProjectControl.js';
+import TicketsTable from './TicketsTable.js';
 
 const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
@@ -30,9 +30,13 @@ const Tickets = (props) => {
     return (
         <>
             <Container className="p-5">
-                <Accordion>
-                    {ticketsList.length ? ticketsList.map((ticket, index) => <Ticket key={index} ticket={ticket} />) : <h3>No tickets to display</h3>}
-                </Accordion>
+                {ticketsList.length ? (
+                    <Container>
+                        <TicketsTable tickets={ticketsList} />
+                    </Container>
+                ) : (
+                    <h3>No tickets to display</h3>
+                )}
             </Container>
             <Container>
                 <TicketProjectControl setShowTicketForm={setShowTicketForm} />
