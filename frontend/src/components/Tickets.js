@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Accordion } from 'react-bootstrap';
-import Ticket from './Ticket.js';
+import { Container } from 'react-bootstrap';
 import TicketForm from './TicketForm.js';
 import TicketProjectControl from './TicketProjectControl.js';
 import TicketsTable from './TicketsTable.js';

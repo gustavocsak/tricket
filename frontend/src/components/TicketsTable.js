@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
+import TicketModal from './TicketModal';
 
 const TicketsTable = (props) => {
     const fields = ['id', 'title', 'author', 'status', 'action'];
+    const [showModal, setShowModal] = useState(false);
+
+    const handleAction = () => {
+        setShowModal(!showModal);
+    };
 
     return (
         <Container>
@@ -23,7 +29,7 @@ const TicketsTable = (props) => {
                                 <td>{ticket.author}</td>
                                 <td>{ticket.status}</td>
                                 <td>
-                                    <Button type="button" className="btn btn-primary">
+                                    <Button type="button" className="btn btn-primary" onClick={handleAction}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
@@ -36,6 +42,7 @@ const TicketsTable = (props) => {
                                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                         </svg>
                                     </Button>
+                                    <TicketModal show={showModal} handleClose={handleAction} ticket={ticket} />
                                 </td>
                             </tr>
                         );
