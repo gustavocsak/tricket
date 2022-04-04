@@ -30,7 +30,7 @@ const Tickets = (props) => {
         setShowTicketForm(false);
     };
 
-    const handleTicketAdded = (event, ticket) => {
+    const handleTicketSubmission = (event, ticket, method) => {
         const { title, description, status, author } = ticket;
 
         const errors = {};
@@ -57,22 +57,23 @@ const Tickets = (props) => {
 
         event.preventDefault();
 
-        console.log('ola!');
-        console.log(props.project);
-
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
         } else {
-            console.log(ticket);
-            axios
-                .post(`/api/v1/projects/${props.project}/tickets`, ticket)
-                .then((result) => {
-                    setShowSuccessSubmission(true);
-                    setTicketAdded(!ticketAdded);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            if (method == 'post') {
+                console.log(ticket);
+                axios
+                    .post(`/api/v1/projects/${props.project}/tickets`, ticket)
+                    .then((result) => {
+                        setShowSuccessSubmission(true);
+                        setTicketAdded(!ticketAdded);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else if (method == 'patch') {
+                console.log('ticket edited');
+            }
         }
     };
 
@@ -81,7 +82,13 @@ const Tickets = (props) => {
             <Container className="p-5">
                 {ticketsList.length ? (
                     <Container>
-                        <TicketsTable tickets={ticketsList} />
+                        <TicketsTable
+                            tickets={ticketsList}
+                            handleTicketSubmission={handleTicketSubmission}
+                            setShowTicketForm={handleCloseForm}
+                            errors={errors}
+                            success={showSuccessSubmission}
+                        />
                     </Container>
                 ) : (
                     <h3>No tickets to display</h3>
@@ -93,10 +100,11 @@ const Tickets = (props) => {
             <Container>
                 {showTicketForm ? (
                     <TicketForm
-                        handleTicketSubmission={handleTicketAdded}
+                        handleTicketSubmission={handleTicketSubmission}
                         setShowTicketForm={handleCloseForm}
                         errors={errors}
                         success={showSuccessSubmission}
+                        method="post"
                     />
                 ) : (
                     <></>

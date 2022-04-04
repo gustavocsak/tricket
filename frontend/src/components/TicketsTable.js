@@ -52,7 +52,15 @@ const TicketsTable = (props) => {
                     })}
                 </tbody>
             </Table>
-            <TicketModal show={showModal} handleClose={handleAction} ticket={ticket} />
+            <TicketModal
+                show={showModal}
+                handleClose={handleAction}
+                ticket={ticket}
+                handleTicketSubmission={props.handleTicketSubmission}
+                setShowTicketForm={props.setShowTicketForm}
+                errors={props.errors}
+                success={props.success}
+            />
         </Container>
     );
 };

@@ -17,7 +17,13 @@ const TicketModal = (props) => {
                         <Modal.Title>Ticket id: {props.ticket._id}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <TicketEdit handleTicketEdited={handleTicketEdited} ticket={props.ticket} />
+                        <TicketForm
+                            handleTicketSubmission={props.handleTicketSubmission}
+                            setShowTicketForm={props.setShowTicketForm}
+                            errors={props.errors}
+                            success={props.success}
+                            method="patch"
+                        />
                     </Modal.Body>
                 </Modal>
             ) : (

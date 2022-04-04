@@ -13,7 +13,7 @@ const TicketForm = (props) => {
 
     return (
         <Container className="p-5 mt-5 mb-3 border">
-            <Form onSubmit={(event) => props.handleTicketSubmission(event, ticket)}>
+            <Form onSubmit={(event) => props.handleTicketSubmission(event, ticket, props.method)}>
                 <CloseButton className="float-end" onClick={() => props.setShowTicketForm(false)} />
 
                 <Form.Group className="mb-4">
