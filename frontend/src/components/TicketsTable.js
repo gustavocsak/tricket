@@ -5,8 +5,10 @@ import TicketModal from './TicketModal';
 const TicketsTable = (props) => {
     const fields = ['id', 'title', 'author', 'status', 'action'];
     const [showModal, setShowModal] = useState(false);
+    const [ticket, setTicket] = useState({});
 
-    const handleAction = () => {
+    const handleAction = (ticket) => {
+        setTicket(ticket);
         setShowModal(!showModal);
     };
 
@@ -27,9 +29,11 @@ const TicketsTable = (props) => {
                                 <td>{ticket._id}</td>
                                 <td>{ticket.title}</td>
                                 <td>{ticket.author}</td>
-                                <td>{ticket.status}</td>
                                 <td>
-                                    <Button type="button" className="btn btn-primary" onClick={handleAction}>
+                                    <span className="badge bg-secondary">{ticket.status}</span>
+                                </td>
+                                <td>
+                                    <Button type="button" className="btn btn-primary" onClick={() => handleAction(ticket)}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
@@ -42,13 +46,13 @@ const TicketsTable = (props) => {
                                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                         </svg>
                                     </Button>
-                                    <TicketModal show={showModal} handleClose={handleAction} ticket={ticket} />
                                 </td>
                             </tr>
                         );
                     })}
                 </tbody>
             </Table>
+            <TicketModal show={showModal} handleClose={handleAction} ticket={ticket} />
         </Container>
     );
 };
