@@ -5,7 +5,7 @@ import TicketForm from './TicketForm';
 const TicketProjectControl = (props) => {
     return (
         <>
-            <Container>
+            <Container className="mb-5">
                 <Button className="me-3" onClick={() => props.setShowTicketForm(true)}>
                     Add new Ticket
                 </Button>

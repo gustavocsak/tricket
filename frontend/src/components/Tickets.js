@@ -9,8 +9,9 @@ const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
     const [showTicketForm, setShowTicketForm] = useState(false);
     const [ticketAdded, setTicketAdded] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [showSuccessSubmission, setShowSuccessSubmission] = useState(false);
+    const [postErrors, setPostErrors] = useState({});
+    const [patchErrors, setPatchErrors] = useState({});
+    const [postSuccess, setPostSuccess] = useState(false);
 
     useEffect(() => {
         if (props.project) {
@@ -25,8 +26,15 @@ const Tickets = (props) => {
         }
     }, [props.project, ticketAdded]);
 
-    const handleCloseForm = () => {
-        setShowSuccessSubmission(false);
+    const handleCloseAddForm = () => {
+        setPostErrors({});
+        setPostSuccess(false);
+        setShowTicketForm(false);
+    };
+
+    const handleCloseEditForm = () => {
+        setPatchErrors({});
+        setPostSuccess(false);
         setShowTicketForm(false);
     };
 
@@ -57,37 +65,50 @@ const Tickets = (props) => {
 
         event.preventDefault();
 
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
-        } else {
-            if (method == 'post') {
+        if (method == 'post') {
+            if (Object.keys(errors).length > 0) {
+                setPostErrors(errors);
+            } else {
                 console.log(ticket);
                 axios
                     .post(`/api/v1/projects/${props.project}/tickets`, ticket)
                     .then((result) => {
-                        setShowSuccessSubmission(true);
+                        setPostSuccess(true);
                         setTicketAdded(!ticketAdded);
                     })
                     .catch((error) => {
                         console.log(error);
                     });
-            } else if (method == 'patch') {
-                console.log('ticket edited');
+            }
+        } else if (method == 'patch') {
+            if (Object.keys(errors).length > 0) {
+                setPatchErrors(errors);
+            } else {
+                console.log(ticket);
+                axios
+                    .post(`/api/v1/projects/${props.project}/tickets`, ticket)
+                    .then((result) => {
+                        setPostSuccess(true);
+                        setTicketAdded(!ticketAdded);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             }
         }
     };
 
     return (
         <>
-            <Container className="p-5">
+            <Container className="p-3">
                 {ticketsList.length ? (
                     <Container>
                         <TicketsTable
                             tickets={ticketsList}
                             handleTicketSubmission={handleTicketSubmission}
-                            setShowTicketForm={handleCloseForm}
-                            errors={errors}
-                            success={showSuccessSubmission}
+                            setShowTicketForm={handleCloseAddForm}
+                            setPatchErrors={setPatchErrors}
+                            errors={patchErrors}
                         />
                     </Container>
                 ) : (
@@ -101,9 +122,9 @@ const Tickets = (props) => {
                 {showTicketForm ? (
                     <TicketForm
                         handleTicketSubmission={handleTicketSubmission}
-                        setShowTicketForm={handleCloseForm}
-                        errors={errors}
-                        success={showSuccessSubmission}
+                        handleCloseForm={handleCloseAddForm}
+                        errors={postErrors}
+                        success={postSuccess}
                         method="post"
                     />
                 ) : (

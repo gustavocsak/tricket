@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { propTypes } from 'react-bootstrap/esm/Image';
-import TicketEdit from './TicketEdit.js';
 import TicketForm from './TicketForm.js';
 
 const TicketModal = (props) => {
+    const [editSuccess, setEditSuccess] = useState(false);
+
     const handleTicketEdited = () => {
+        setEditSuccess(true);
         console.log('ticket added');
     };
 
@@ -21,8 +22,10 @@ const TicketModal = (props) => {
                             handleTicketSubmission={props.handleTicketSubmission}
                             setShowTicketForm={props.setShowTicketForm}
                             errors={props.errors}
-                            success={props.success}
+                            success={editSuccess}
+                            ticketToEdit={props.ticket}
                             method="patch"
+                            readOnly={true}
                         />
                     </Modal.Body>
                 </Modal>
