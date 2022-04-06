@@ -13,7 +13,12 @@ const TicketForm = (props) => {
 
     return (
         <Container className="p-5 mt-5 mb-3 border">
-            <Form onSubmit={(event) => props.handleTicketSubmission(event, ticket, props.method)}>
+            <Form
+                onSubmit={(event) => {
+                    console.log('submitted');
+                    props.handleTicketSubmission(event, ticket, props.method);
+                }}
+            >
                 {props.method == 'post' ? <CloseButton className="float-end" onClick={() => props.setShowTicketForm(false)} /> : <></>}
 
                 <Form.Group className="mb-4">
@@ -24,7 +29,7 @@ const TicketForm = (props) => {
                         onChange={(e) => setField('title', e.target.value)}
                         isInvalid={props.errors.title}
                         readOnly={props.readOnly}
-                        value={props.ticketToEdit ? props.ticketToEdit.title : undefined}
+                        defaultValue={props.ticketToEdit ? props.ticketToEdit.title : undefined}
                     />
                     <Form.Control.Feedback type="invalid">{props.errors.title}</Form.Control.Feedback>
                 </Form.Group>
@@ -37,7 +42,7 @@ const TicketForm = (props) => {
                         onChange={(e) => setField('author', e.target.value)}
                         isInvalid={props.errors.author}
                         readOnly={props.readOnly}
-                        value={props.ticketToEdit ? props.ticketToEdit.author : undefined}
+                        defaultValue={props.ticketToEdit ? props.ticketToEdit.author : undefined}
                     />
                     <Form.Control.Feedback type="invalid">{props.errors.author}</Form.Control.Feedback>
                 </Form.Group>
@@ -51,7 +56,7 @@ const TicketForm = (props) => {
                         placeholder="Brief description for your ticket"
                         onChange={(e) => setField('description', e.target.value)}
                         readOnly={props.readOnly}
-                        value={props.ticketToEdit ? props.ticketToEdit.description : undefined}
+                        defaultValue={props.ticketToEdit ? props.ticketToEdit.description : undefined}
                     />
                 </Form.Group>
 
@@ -62,7 +67,7 @@ const TicketForm = (props) => {
                         onChange={(e) => setField('status', e.target.value)}
                         isInvalid={props.errors.status}
                         readOnly={props.readOnly}
-                        value={props.ticketToEdit ? props.ticketToEdit.status : undefined}
+                        defaultValue={props.ticketToEdit ? props.ticketToEdit.status : undefined}
                     >
                         <option value="">Select the status for this ticket</option>
                         <option value="open">Open</option>
@@ -73,6 +78,9 @@ const TicketForm = (props) => {
                 </Form.Group>
 
                 {props.success ? <Alert variant="success">Success! Your Ticket information was posted and added to your project list!</Alert> : <></>}
+
+                {props.editSuccess ? <Alert variant="success">Success! Your Ticket was edited!</Alert> : <></>}
+
                 {props.method == 'post' ? (
                     <>
                         <Button className="me-3" variant="success" type="submit">
@@ -84,12 +92,25 @@ const TicketForm = (props) => {
                     </>
                 ) : (
                     <>
-                        <Button className="me-3" variant="primary" type="submit">
-                            Edit Ticket
-                        </Button>
-                        <Button variant="danger" onClick={() => props.handleCloseForm(false)}>
-                            Cancel
-                        </Button>
+                        {!props.editing ? (
+                            <>
+                                <Button className="me-3" variant="primary" type="button" key={2} onClick={() => props.handleEditButton()}>
+                                    Edit Ticket
+                                </Button>
+                                <Button variant="danger" onClick={() => props.handleCloseForm(false)}>
+                                    Cancel
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button className="me-3" variant="success" type="submit" key={1}>
+                                    Confirm Changes
+                                </Button>
+                                <Button variant="danger" onClick={() => props.handleCloseForm(false)}>
+                                    Cancel
+                                </Button>
+                            </>
+                        )}
                     </>
                 )}
             </Form>

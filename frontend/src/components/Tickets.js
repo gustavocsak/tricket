@@ -32,16 +32,12 @@ const Tickets = (props) => {
         setShowTicketForm(false);
     };
 
-    const handleCloseEditForm = () => {
-        setPatchErrors({});
-        setPostSuccess(false);
-        setShowTicketForm(false);
-    };
-
     const handleTicketSubmission = (event, ticket, method) => {
         const { title, description, status, author } = ticket;
 
         const errors = {};
+
+        console.log(method);
 
         const ticketValidStatus = ['open', 'progress', 'closed'];
 

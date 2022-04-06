@@ -27,7 +27,6 @@ const postProject = (req, res, next) => {
 
 const getTickets = (req, res, next) => {
     const id = req.params.id;
-    console.log(id);
 
     Project.findOne({ _id: id })
         .populate('tickets')
@@ -35,7 +34,6 @@ const getTickets = (req, res, next) => {
             res.json(result);
         })
         .catch((error) => {
-            console.log('fiirst error');
             res.status(500).json(error);
         });
 };
@@ -51,7 +49,7 @@ const postTicket = (req, res, next) => {
             ticket
                 .save()
                 .then((item) => {
-                    console.log(item);
+                    // console.log(item);
                 })
                 .catch((error) => {
                     res.json(error);

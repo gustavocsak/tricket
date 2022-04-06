@@ -3,13 +3,6 @@ import { Modal } from 'react-bootstrap';
 import TicketForm from './TicketForm.js';
 
 const TicketModal = (props) => {
-    const [editSuccess, setEditSuccess] = useState(false);
-
-    const handleTicketEdited = () => {
-        setEditSuccess(true);
-        console.log('ticket added');
-    };
-
     return (
         <>
             {props.ticket ? (
@@ -20,12 +13,16 @@ const TicketModal = (props) => {
                     <Modal.Body>
                         <TicketForm
                             handleTicketSubmission={props.handleTicketSubmission}
+                            handleCloseForm={props.handleClose}
+                            handleEditButton={props.handleEditButton}
                             setShowTicketForm={props.setShowTicketForm}
                             errors={props.errors}
-                            success={editSuccess}
+                            editSuccess={props.editSuccess}
                             ticketToEdit={props.ticket}
                             method="patch"
-                            readOnly={true}
+                            readOnly={props.readOnly}
+                            editing={props.editing}
+                            handleConfirmChanges={props.handleConfirmChanges}
                         />
                     </Modal.Body>
                 </Modal>

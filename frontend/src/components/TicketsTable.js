@@ -6,6 +6,9 @@ const TicketsTable = (props) => {
     const fields = ['id', 'title', 'author', 'status', 'action'];
     const [showModal, setShowModal] = useState(false);
     const [ticket, setTicket] = useState({});
+    const [readOnly, setReadOnly] = useState(true);
+    const [editSuccess, setEditSuccess] = useState(false);
+    const [editing, setEditing] = useState(false);
 
     const handleAction = (ticket) => {
         setTicket(ticket);
@@ -13,8 +16,23 @@ const TicketsTable = (props) => {
     };
 
     const handleCloseModal = () => {
+        setReadOnly(true);
+        setEditing(false);
+        setEditSuccess(false);
         props.setPatchErrors({});
         setShowModal(!showModal);
+    };
+
+    const handleEditButton = () => {
+        props.setPatchErrors({});
+        setReadOnly(false);
+        setEditing(true);
+    };
+
+    const handleConfirmChanges = () => {
+        setReadOnly(true);
+        setEditing(false);
+        setEditSuccess(true);
     };
 
     return (
@@ -80,6 +98,11 @@ const TicketsTable = (props) => {
                 handleTicketSubmission={props.handleTicketSubmission}
                 setShowTicketForm={props.setShowTicketForm}
                 errors={props.errors}
+                readOnly={readOnly}
+                setReadOnly={setReadOnly}
+                handleEditButton={handleEditButton}
+                editing={editing}
+                handleConfirmChanges={handleConfirmChanges}
             />
         </Container>
     );
