@@ -32,12 +32,10 @@ const Tickets = (props) => {
         setShowTicketForm(false);
     };
 
-    const handleTicketSubmission = (event, ticket, method) => {
-        const { title, description, status, author } = ticket;
+    const dataValidation = (object) => {
+        const { title, author, description, status } = object;
 
         const errors = {};
-
-        console.log(method);
 
         const ticketValidStatus = ['open', 'progress', 'closed'];
 
@@ -59,9 +57,20 @@ const Tickets = (props) => {
             errors.status = 'Please select a valid status for your ticket';
         }
 
-        event.preventDefault();
+        return errors;
+    };
 
+    const patchDataValidation = (object) => {
+        const { title, author, description, status } = object;
+
+        const errors = {};
+
+        const ticketValidStatus = ['open', 'progress', 'closed'];
+    };
+
+    const handleTicketSubmission = (event, ticket, method) => {
         if (method == 'post') {
+            let errors = dataValidation(ticket);
             if (Object.keys(errors).length > 0) {
                 setPostErrors(errors);
             } else {
@@ -77,6 +86,7 @@ const Tickets = (props) => {
                     });
             }
         } else if (method == 'patch') {
+            let errors = dataValidation(ticket);
             if (Object.keys(errors).length > 0) {
                 setPatchErrors(errors);
             } else {

@@ -2,20 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Container, Form, Alert, CloseButton, Button } from 'react-bootstrap';
 
 const TicketForm = (props) => {
+    const [changedInfo, setChangedInfo] = useState(false);
     const [ticket, setTicket] = useState({});
 
     const setField = (field, value) => {
+        setChangedInfo(true);
         setTicket({
             ...ticket,
             [field]: value,
         });
     };
 
+    useEffect(() => {
+        setTicket({ ...props.ticketToEdit });
+    }, [props.editing]);
+
     return (
         <Container className="p-5 mt-5 mb-3 border">
             <Form
-                onSubmit={(event) => {
-                    console.log('submitted');
+                onSubmit={function (event) {
+                    event.preventDefault();
                     props.handleTicketSubmission(event, ticket, props.method);
                 }}
             >

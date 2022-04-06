@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 db.on('open', () => {
     console.log('connected to database.');
-    const server = app.listen(process.env.PORT || 8080, () => console.log('listening'));
+    const server = app.listen(process.env.PORT || 3000, () => console.log('listening'));
 });
 
 const router = require('./routes/index.js');

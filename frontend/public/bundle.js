@@ -384,20 +384,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var TicketForm = function TicketForm(props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      ticket = _useState2[0],
-      setTicket = _useState2[1];
+      changedInfo = _useState2[0],
+      setChangedInfo = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      ticket = _useState4[0],
+      setTicket = _useState4[1];
 
   var setField = function setField(field, value) {
+    setChangedInfo(true);
     setTicket(_objectSpread(_objectSpread({}, ticket), {}, _defineProperty({}, field, value)));
   };
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTicket(_objectSpread({}, props.ticketToEdit));
+  }, [props.editing]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["default"], {
     className: "p-5 mt-5 mb-3 border"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
     onSubmit: function onSubmit(event) {
-      console.log('submitted');
+      event.preventDefault();
       props.handleTicketSubmission(event, ticket, props.method);
     }
   }, props.method == 'post' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -671,13 +680,12 @@ var Tickets = function Tickets(props) {
     setShowTicketForm(false);
   };
 
-  var handleTicketSubmission = function handleTicketSubmission(event, ticket, method) {
-    var title = ticket.title,
-        description = ticket.description,
-        status = ticket.status,
-        author = ticket.author;
+  var dataValidation = function dataValidation(object) {
+    var title = object.title,
+        author = object.author,
+        description = object.description,
+        status = object.status;
     var errors = {};
-    console.log(method);
     var ticketValidStatus = ['open', 'progress', 'closed'];
 
     if (!title || title == '') {
@@ -698,9 +706,22 @@ var Tickets = function Tickets(props) {
       errors.status = 'Please select a valid status for your ticket';
     }
 
-    event.preventDefault();
+    return errors;
+  };
 
+  var patchDataValidation = function patchDataValidation(object) {
+    var title = object.title,
+        author = object.author,
+        description = object.description,
+        status = object.status;
+    var errors = {};
+    var ticketValidStatus = ['open', 'progress', 'closed'];
+  };
+
+  var handleTicketSubmission = function handleTicketSubmission(event, ticket, method) {
     if (method == 'post') {
+      var errors = dataValidation(ticket);
+
       if (Object.keys(errors).length > 0) {
         setPostErrors(errors);
       } else {
@@ -713,8 +734,10 @@ var Tickets = function Tickets(props) {
         });
       }
     } else if (method == 'patch') {
-      if (Object.keys(errors).length > 0) {
-        setPatchErrors(errors);
+      var _errors = dataValidation(ticket);
+
+      if (Object.keys(_errors).length > 0) {
+        setPatchErrors(_errors);
       } else {
         console.log(ticket);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/v1/projects/".concat(props.project, "/tickets"), ticket).then(function (result) {
