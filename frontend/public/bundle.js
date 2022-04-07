@@ -647,8 +647,8 @@ var Tickets = function Tickets(props) {
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      ticketAdded = _useState6[0],
-      setTicketAdded = _useState6[1];
+      ticketChanged = _useState6[0],
+      setTicketChanged = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
       _useState8 = _slicedToArray(_useState7, 2),
@@ -678,7 +678,7 @@ var Tickets = function Tickets(props) {
         console.log(error);
       });
     }
-  }, [props.project, ticketAdded]);
+  }, [props.project, ticketChanged]);
 
   var handleCloseAddForm = function handleCloseAddForm() {
     setPostErrors({});
@@ -725,7 +725,7 @@ var Tickets = function Tickets(props) {
         console.log(ticket);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/v1/projects/".concat(props.project, "/tickets"), ticket).then(function (result) {
           setPostSuccess(true);
-          setTicketAdded(!ticketAdded);
+          setTicketChanged(!ticketChanged);
         })["catch"](function (error) {
           console.log(error);
         });
@@ -738,13 +738,17 @@ var Tickets = function Tickets(props) {
       } else {
         axios__WEBPACK_IMPORTED_MODULE_0___default().patch("/api/v1/tickets/".concat(ticket._id), ticket).then(function (result) {
           setPatchSuccess(true);
-          setTicketAdded(!ticketAdded);
+          setTicketChanged(!ticketChanged);
           console.log(result);
         })["catch"](function (error) {
           console.log(error);
         });
       }
     }
+  };
+
+  var handleTicketDelete = function handleTicketDelete() {
+    setTicketChanged(!ticketChanged);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -756,7 +760,8 @@ var Tickets = function Tickets(props) {
     setPatchErrors: setPatchErrors,
     errors: patchErrors,
     setPatchSuccess: setPatchSuccess,
-    patchSuccess: patchSuccess
+    patchSuccess: patchSuccess,
+    handleTicketDelete: handleTicketDelete
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", null, "No tickets to display")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_TicketProjectControl_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
     setShowTicketForm: setShowTicketForm
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], null, showTicketForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_TicketForm_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -784,10 +789,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Table.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Table.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
 /* harmony import */ var _TicketModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TicketModal */ "./frontend/src/components/TicketModal.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -799,6 +806,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -845,6 +853,15 @@ var TicketsTable = function TicketsTable(props) {
     setShowModal(!showModal);
   };
 
+  var handleDelete = function handleDelete(ticket) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("/api/v1/tickets/".concat(ticket._id)).then(function (result) {
+      props.handleTicketDelete();
+      console.log(result);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+
   var handleCloseModal = function handleCloseModal() {
     setReadOnly(true);
     setEditing(false);
@@ -865,7 +882,7 @@ var TicketsTable = function TicketsTable(props) {
     props.setPatchSuccess(true);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
     responsive: true,
     className: "table-bordered table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
@@ -879,7 +896,7 @@ var TicketsTable = function TicketsTable(props) {
       key: index
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, ticket._id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, ticket.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, ticket.author), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "badge bg-secondary"
-    }, ticket.status)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }, ticket.status)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
       type: "button",
       className: "btn btn-primary",
       onClick: function onClick() {
@@ -896,9 +913,12 @@ var TicketsTable = function TicketsTable(props) {
       d: "M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
       d: "M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
       type: "button",
-      className: "btn btn-danger"
+      className: "btn btn-danger",
+      onClick: function onClick() {
+        return handleDelete(ticket);
+      }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       width: "16",

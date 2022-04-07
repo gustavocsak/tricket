@@ -8,7 +8,7 @@ import TicketsTable from './TicketsTable.js';
 const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
     const [showTicketForm, setShowTicketForm] = useState(false);
-    const [ticketAdded, setTicketAdded] = useState(false);
+    const [ticketChanged, setTicketChanged] = useState(false);
     const [postErrors, setPostErrors] = useState({});
     const [patchErrors, setPatchErrors] = useState({});
     const [postSuccess, setPostSuccess] = useState(false);
@@ -25,7 +25,7 @@ const Tickets = (props) => {
                     console.log(error);
                 });
         }
-    }, [props.project, ticketAdded]);
+    }, [props.project, ticketChanged]);
 
     const handleCloseAddForm = () => {
         setPostErrors({});
@@ -72,7 +72,7 @@ const Tickets = (props) => {
                     .post(`/api/v1/projects/${props.project}/tickets`, ticket)
                     .then((result) => {
                         setPostSuccess(true);
-                        setTicketAdded(!ticketAdded);
+                        setTicketChanged(!ticketChanged);
                     })
                     .catch((error) => {
                         console.log(error);
@@ -87,7 +87,7 @@ const Tickets = (props) => {
                     .patch(`/api/v1/tickets/${ticket._id}`, ticket)
                     .then((result) => {
                         setPatchSuccess(true);
-                        setTicketAdded(!ticketAdded);
+                        setTicketChanged(!ticketChanged);
                         console.log(result);
                     })
                     .catch((error) => {
@@ -95,6 +95,10 @@ const Tickets = (props) => {
                     });
             }
         }
+    };
+
+    const handleTicketDelete = () => {
+        setTicketChanged(!ticketChanged);
     };
 
     return (
@@ -110,6 +114,7 @@ const Tickets = (props) => {
                             errors={patchErrors}
                             setPatchSuccess={setPatchSuccess}
                             patchSuccess={patchSuccess}
+                            handleTicketDelete={handleTicketDelete}
                         />
                     </Container>
                 ) : (
