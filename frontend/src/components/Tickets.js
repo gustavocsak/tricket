@@ -12,6 +12,7 @@ const Tickets = (props) => {
     const [postErrors, setPostErrors] = useState({});
     const [patchErrors, setPatchErrors] = useState({});
     const [postSuccess, setPostSuccess] = useState(false);
+    const [patchSuccess, setPatchSuccess] = useState(false);
 
     useEffect(() => {
         if (props.project) {
@@ -60,14 +61,6 @@ const Tickets = (props) => {
         return errors;
     };
 
-    const patchDataValidation = (object) => {
-        const { title, author, description, status } = object;
-
-        const errors = {};
-
-        const ticketValidStatus = ['open', 'progress', 'closed'];
-    };
-
     const handleTicketSubmission = (event, ticket, method) => {
         if (method == 'post') {
             let errors = dataValidation(ticket);
@@ -90,12 +83,12 @@ const Tickets = (props) => {
             if (Object.keys(errors).length > 0) {
                 setPatchErrors(errors);
             } else {
-                console.log(ticket);
                 axios
-                    .post(`/api/v1/projects/${props.project}/tickets`, ticket)
+                    .patch(`/api/v1/tickets/${ticket._id}`, ticket)
                     .then((result) => {
-                        setPostSuccess(true);
+                        setPatchSuccess(true);
                         setTicketAdded(!ticketAdded);
+                        console.log(result);
                     })
                     .catch((error) => {
                         console.log(error);
@@ -115,6 +108,8 @@ const Tickets = (props) => {
                             setShowTicketForm={handleCloseAddForm}
                             setPatchErrors={setPatchErrors}
                             errors={patchErrors}
+                            setPatchSuccess={setPatchSuccess}
+                            patchSuccess={patchSuccess}
                         />
                     </Container>
                 ) : (

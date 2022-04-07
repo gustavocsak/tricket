@@ -23,6 +23,7 @@ const TicketModal = (props) => {
                             readOnly={props.readOnly}
                             editing={props.editing}
                             handleConfirmChanges={props.handleConfirmChanges}
+                            success={props.success}
                         />
                     </Modal.Body>
                 </Modal>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import TicketModal from './TicketModal';
 
@@ -7,8 +7,16 @@ const TicketsTable = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [ticket, setTicket] = useState({});
     const [readOnly, setReadOnly] = useState(true);
-    const [editSuccess, setEditSuccess] = useState(false);
     const [editing, setEditing] = useState(false);
+    const [initialMount, setInitialMount] = useState(true);
+
+    useEffect(() => {
+        if (!initialMount) {
+            handleConfirmChanges();
+        } else {
+            setInitialMount(false);
+        }
+    }, [props.patchSuccess]);
 
     const handleAction = (ticket) => {
         setTicket(ticket);
@@ -18,7 +26,7 @@ const TicketsTable = (props) => {
     const handleCloseModal = () => {
         setReadOnly(true);
         setEditing(false);
-        setEditSuccess(false);
+        props.setPatchSuccess(false);
         props.setPatchErrors({});
         setShowModal(!showModal);
     };
@@ -32,7 +40,7 @@ const TicketsTable = (props) => {
     const handleConfirmChanges = () => {
         setReadOnly(true);
         setEditing(false);
-        setEditSuccess(true);
+        props.setPatchSuccess(true);
     };
 
     return (
@@ -102,7 +110,7 @@ const TicketsTable = (props) => {
                 setReadOnly={setReadOnly}
                 handleEditButton={handleEditButton}
                 editing={editing}
-                handleConfirmChanges={handleConfirmChanges}
+                success={props.patchSuccess}
             />
         </Container>
     );

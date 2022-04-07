@@ -1,10 +1,11 @@
 const router = require('express').Router({ mergeParams: true });
 
-const { getProjects, postProject, getTickets, postTicket } = require('../controllers/mainController.js');
+const { getProjects, postProject, getTickets, postTicket, patchTicket } = require('../controllers/mainController.js');
 
-router.get('/', getProjects);
-router.post('/', postProject);
-router.get('/:id/tickets', getTickets);
-router.post('/:id/tickets', postTicket);
+router.get('/projects', getProjects);
+router.post('/projects', postProject);
+router.get('/projects/:id/tickets', getTickets);
+router.post('/projects/:id/tickets', postTicket);
+router.patch('/tickets/:id', patchTicket);
 
 module.exports = router;

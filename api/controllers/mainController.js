@@ -25,6 +25,21 @@ const postProject = (req, res, next) => {
         });
 };
 
+// const getTicket = (req, res) => {
+//     const id = req.params.id;
+
+//     Ticket.findById(id)
+//         .exec()
+//         .then((ticket) => {
+//             console.log(ticket);
+//         })
+//         .catch((error) => {
+//             console.log(error);
+//         });
+
+//     res.status(200).json({ message: 'got your tiicket' });
+// };
+
 const getTickets = (req, res, next) => {
     const id = req.params.id;
 
@@ -71,9 +86,24 @@ const postTicket = (req, res, next) => {
         });
 };
 
+const patchTicket = (req, res) => {
+    const { _id, author, title, status, description } = req.body;
+
+    Ticket.findByIdAndUpdate(_id, { author: author, title: title, status: status, description: description }, (err, item) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(item);
+        }
+    });
+
+    res.status(200).json({ message: 'item updated' });
+};
+
 module.exports = {
     getProjects,
     postProject,
     getTickets,
     postTicket,
+    patchTicket,
 };
