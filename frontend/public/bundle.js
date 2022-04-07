@@ -345,32 +345,6 @@ var Projects = function Projects(props) {
 
 /***/ }),
 
-/***/ "./frontend/src/components/TicketEdit.js":
-/*!***********************************************!*\
-  !*** ./frontend/src/components/TicketEdit.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
-/* harmony import */ var _TicketForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TicketForm */ "./frontend/src/components/TicketForm.js");
-
-
-
-
-var TicketEdit = function TicketEdit() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], null);
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TicketEdit);
-
-/***/ }),
-
 /***/ "./frontend/src/components/TicketForm.js":
 /*!***********************************************!*\
   !*** ./frontend/src/components/TicketForm.js ***!
@@ -410,27 +384,37 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var TicketForm = function TicketForm(props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      ticket = _useState2[0],
-      setTicket = _useState2[1];
+      changedInfo = _useState2[0],
+      setChangedInfo = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      ticket = _useState4[0],
+      setTicket = _useState4[1];
 
   var setField = function setField(field, value) {
+    setChangedInfo(true);
     setTicket(_objectSpread(_objectSpread({}, ticket), {}, _defineProperty({}, field, value)));
   };
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTicket(_objectSpread({}, props.ticketToEdit));
+  }, [props.editing]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["default"], {
     className: "p-5 mt-5 mb-3 border"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
     onSubmit: function onSubmit(event) {
-      return props.handleTicketSubmission(event, ticket);
+      event.preventDefault();
+      props.handleTicketSubmission(event, ticket, props.method);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, props.method == 'post' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: "float-end",
     onClick: function onClick() {
       return props.setShowTicketForm(false);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
     className: "mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Label, null, "Ticket Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Control, {
     type: "text",
@@ -438,7 +422,9 @@ var TicketForm = function TicketForm(props) {
     onChange: function onChange(e) {
       return setField('title', e.target.value);
     },
-    isInvalid: props.errors.title
+    isInvalid: props.errors.title,
+    readOnly: props.readOnly,
+    defaultValue: props.ticketToEdit ? props.ticketToEdit.title : undefined
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Control.Feedback, {
     type: "invalid"
   }, props.errors.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
@@ -449,7 +435,9 @@ var TicketForm = function TicketForm(props) {
     onChange: function onChange(e) {
       return setField('author', e.target.value);
     },
-    isInvalid: props.errors.author
+    isInvalid: props.errors.author,
+    readOnly: props.readOnly,
+    defaultValue: props.ticketToEdit ? props.ticketToEdit.author : undefined
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Control.Feedback, {
     type: "invalid"
   }, props.errors.author)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
@@ -461,7 +449,9 @@ var TicketForm = function TicketForm(props) {
     placeholder: "Brief description for your ticket",
     onChange: function onChange(e) {
       return setField('description', e.target.value);
-    }
+    },
+    readOnly: props.readOnly,
+    defaultValue: props.ticketToEdit ? props.ticketToEdit.description : undefined
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Group, {
     className: "mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Control, {
@@ -470,7 +460,9 @@ var TicketForm = function TicketForm(props) {
     onChange: function onChange(e) {
       return setField('status', e.target.value);
     },
-    isInvalid: props.errors.status
+    isInvalid: props.errors.status,
+    readOnly: props.readOnly,
+    defaultValue: props.ticketToEdit ? props.ticketToEdit.status : undefined
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
     value: ""
   }, "Select the status for this ticket"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
@@ -481,18 +473,43 @@ var TicketForm = function TicketForm(props) {
     value: "closed"
   }, "Closed")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Control.Feedback, {
     type: "invalid"
-  }, props.errors.status)), console.log(props.success), props.success ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, props.errors.status)), props.success ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
     variant: "success"
-  }, "Success! Your Ticket information was posted and added to your project list!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, "Success! Your Ticket information was posted and added to your project list!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), props.editSuccess ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    variant: "success"
+  }, "Success! Your Ticket was edited!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), props.method == 'post' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
     className: "me-3",
     variant: "success",
     type: "submit"
   }, "Add ticket"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
     variant: "danger",
     onClick: function onClick() {
-      return props.setShowTicketForm(false);
+      return props.handleCloseForm(false);
     }
-  }, "Cancel")));
+  }, "Cancel")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !props.editing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "me-3",
+    variant: "primary",
+    type: "button",
+    key: 2,
+    onClick: function onClick() {
+      return props.handleEditButton();
+    }
+  }, "Edit Ticket"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    variant: "danger",
+    onClick: function onClick() {
+      return props.handleCloseForm(false);
+    }
+  }, "Cancel")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: "me-3",
+    variant: "success",
+    type: "submit",
+    key: 1
+  }, "Confirm Changes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    variant: "danger",
+    onClick: function onClick() {
+      return props.handleCloseForm(false);
+    }
+  }, "Cancel")))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TicketForm);
@@ -511,29 +528,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
-/* harmony import */ var _TicketEdit_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TicketEdit.js */ "./frontend/src/components/TicketEdit.js");
-/* harmony import */ var _TicketForm_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TicketForm.js */ "./frontend/src/components/TicketForm.js");
-
-
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _TicketForm_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TicketForm.js */ "./frontend/src/components/TicketForm.js");
 
 
 
 
 var TicketModal = function TicketModal(props) {
-  var handleTicketEdited = function handleTicketEdited() {
-    console.log('ticket added');
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, props.ticket ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, props.ticket ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: props.ticket._id,
     show: props.show,
     onHide: props.handleClose
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Header, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Header, {
     closeButton: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Title, null, "Ticket id: ", props.ticket._id)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TicketEdit_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    handleTicketEdited: handleTicketEdited,
-    ticket: props.ticket
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Title, null, "Ticket id: ", props.ticket._id)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TicketForm_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    handleTicketSubmission: props.handleTicketSubmission,
+    handleCloseForm: props.handleClose,
+    handleEditButton: props.handleEditButton,
+    setShowTicketForm: props.setShowTicketForm,
+    errors: props.errors,
+    editSuccess: props.editSuccess,
+    ticketToEdit: props.ticket,
+    method: "patch",
+    readOnly: props.readOnly,
+    editing: props.editing,
+    handleConfirmChanges: props.handleConfirmChanges,
+    success: props.success
   }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null));
 };
 
@@ -561,7 +581,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TicketProjectControl = function TicketProjectControl(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: "me-3",
     onClick: function onClick() {
       return props.setShowTicketForm(true);
@@ -630,13 +652,23 @@ var Tickets = function Tickets(props) {
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
       _useState8 = _slicedToArray(_useState7, 2),
-      errors = _useState8[0],
-      setErrors = _useState8[1];
+      postErrors = _useState8[0],
+      setPostErrors = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
       _useState10 = _slicedToArray(_useState9, 2),
-      showSuccessSubmission = _useState10[0],
-      setShowSuccessSubmission = _useState10[1];
+      patchErrors = _useState10[0],
+      setPatchErrors = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState12 = _slicedToArray(_useState11, 2),
+      postSuccess = _useState12[0],
+      setPostSuccess = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      patchSuccess = _useState14[0],
+      setPatchSuccess = _useState14[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (props.project) {
@@ -648,16 +680,17 @@ var Tickets = function Tickets(props) {
     }
   }, [props.project, ticketAdded]);
 
-  var handleCloseForm = function handleCloseForm() {
-    setShowSuccessSubmission(false);
+  var handleCloseAddForm = function handleCloseAddForm() {
+    setPostErrors({});
+    setPostSuccess(false);
     setShowTicketForm(false);
   };
 
-  var handleTicketAdded = function handleTicketAdded(event, ticket) {
-    var title = ticket.title,
-        description = ticket.description,
-        status = ticket.status,
-        author = ticket.author;
+  var dataValidation = function dataValidation(object) {
+    var title = object.title,
+        author = object.author,
+        description = object.description,
+        status = object.status;
     var errors = {};
     var ticketValidStatus = ['open', 'progress', 'closed'];
 
@@ -679,34 +712,59 @@ var Tickets = function Tickets(props) {
       errors.status = 'Please select a valid status for your ticket';
     }
 
-    event.preventDefault();
-    console.log('ola!');
-    console.log(props.project);
+    return errors;
+  };
 
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
-    } else {
-      console.log(ticket);
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/v1/projects/".concat(props.project, "/tickets"), ticket).then(function (result) {
-        setShowSuccessSubmission(true);
-        setTicketAdded(!ticketAdded);
-      })["catch"](function (error) {
-        console.log(error);
-      });
+  var handleTicketSubmission = function handleTicketSubmission(event, ticket, method) {
+    if (method == 'post') {
+      var errors = dataValidation(ticket);
+
+      if (Object.keys(errors).length > 0) {
+        setPostErrors(errors);
+      } else {
+        console.log(ticket);
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/v1/projects/".concat(props.project, "/tickets"), ticket).then(function (result) {
+          setPostSuccess(true);
+          setTicketAdded(!ticketAdded);
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+    } else if (method == 'patch') {
+      var _errors = dataValidation(ticket);
+
+      if (Object.keys(_errors).length > 0) {
+        setPatchErrors(_errors);
+      } else {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().patch("/api/v1/tickets/".concat(ticket._id), ticket).then(function (result) {
+          setPatchSuccess(true);
+          setTicketAdded(!ticketAdded);
+          console.log(result);
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    className: "p-5"
+    className: "p-3"
   }, ticketsList.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_TicketsTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    tickets: ticketsList
+    tickets: ticketsList,
+    handleTicketSubmission: handleTicketSubmission,
+    setShowTicketForm: handleCloseAddForm,
+    setPatchErrors: setPatchErrors,
+    errors: patchErrors,
+    setPatchSuccess: setPatchSuccess,
+    patchSuccess: patchSuccess
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", null, "No tickets to display")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_TicketProjectControl_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
     setShowTicketForm: setShowTicketForm
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], null, showTicketForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_TicketForm_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    handleTicketSubmission: handleTicketAdded,
-    setShowTicketForm: handleCloseForm,
-    errors: errors,
-    success: showSuccessSubmission
+    handleTicketSubmission: handleTicketSubmission,
+    handleCloseForm: handleCloseAddForm,
+    errors: postErrors,
+    success: postSuccess,
+    method: "post"
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null)));
 };
 
@@ -759,9 +817,52 @@ var TicketsTable = function TicketsTable(props) {
       ticket = _useState4[0],
       setTicket = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      readOnly = _useState6[0],
+      setReadOnly = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      editing = _useState8[0],
+      setEditing = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState10 = _slicedToArray(_useState9, 2),
+      initialMount = _useState10[0],
+      setInitialMount = _useState10[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (!initialMount) {
+      handleConfirmChanges();
+    } else {
+      setInitialMount(false);
+    }
+  }, [props.patchSuccess]);
+
   var handleAction = function handleAction(ticket) {
     setTicket(ticket);
     setShowModal(!showModal);
+  };
+
+  var handleCloseModal = function handleCloseModal() {
+    setReadOnly(true);
+    setEditing(false);
+    props.setPatchSuccess(false);
+    props.setPatchErrors({});
+    setShowModal(!showModal);
+  };
+
+  var handleEditButton = function handleEditButton() {
+    props.setPatchErrors({});
+    setReadOnly(false);
+    setEditing(true);
+  };
+
+  var handleConfirmChanges = function handleConfirmChanges() {
+    setReadOnly(true);
+    setEditing(false);
+    props.setPatchSuccess(true);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -795,11 +896,34 @@ var TicketsTable = function TicketsTable(props) {
       d: "M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
       d: "M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      type: "button",
+      className: "btn btn-danger"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "16",
+      height: "16",
+      fill: "currentColor",
+      className: "bi bi-trash",
+      viewBox: "0 0 16 16"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+      d: "M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+      fillRule: "evenodd",
+      d: "M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
     })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TicketModal__WEBPACK_IMPORTED_MODULE_1__["default"], {
     show: showModal,
-    handleClose: handleAction,
-    ticket: ticket
+    handleClose: handleCloseModal,
+    ticket: ticket,
+    handleTicketSubmission: props.handleTicketSubmission,
+    setShowTicketForm: props.setShowTicketForm,
+    errors: props.errors,
+    readOnly: readOnly,
+    setReadOnly: setReadOnly,
+    handleEditButton: handleEditButton,
+    editing: editing,
+    success: props.patchSuccess
   }));
 };
 

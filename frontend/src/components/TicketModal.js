@@ -1,14 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { propTypes } from 'react-bootstrap/esm/Image';
-import TicketEdit from './TicketEdit.js';
 import TicketForm from './TicketForm.js';
 
 const TicketModal = (props) => {
-    const handleTicketEdited = () => {
-        console.log('ticket added');
-    };
-
     return (
         <>
             {props.ticket ? (
@@ -17,7 +11,20 @@ const TicketModal = (props) => {
                         <Modal.Title>Ticket id: {props.ticket._id}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <TicketEdit handleTicketEdited={handleTicketEdited} ticket={props.ticket} />
+                        <TicketForm
+                            handleTicketSubmission={props.handleTicketSubmission}
+                            handleCloseForm={props.handleClose}
+                            handleEditButton={props.handleEditButton}
+                            setShowTicketForm={props.setShowTicketForm}
+                            errors={props.errors}
+                            editSuccess={props.editSuccess}
+                            ticketToEdit={props.ticket}
+                            method="patch"
+                            readOnly={props.readOnly}
+                            editing={props.editing}
+                            handleConfirmChanges={props.handleConfirmChanges}
+                            success={props.success}
+                        />
                     </Modal.Body>
                 </Modal>
             ) : (
