@@ -862,7 +862,7 @@ var Tickets = function Tickets(props) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    className: "p-3"
+    className: "p-5"
   }, ticketsList.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_TicketsTable_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
     tickets: ticketsList,
     handleTicketSubmission: handleTicketSubmission,

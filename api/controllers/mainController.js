@@ -32,7 +32,11 @@ const postProject = (req, res, next) => {
     project
         .save()
         .then((result) => {
-            res.status(201).json(result);
+            res.set('content-location', `/api/v1/projects/${result._id}`);
+            res.status(201).json({
+                url: `/api/v1/projects/${result._id}`,
+                data: result,
+            });
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -64,18 +68,22 @@ const postTicket = (req, res, next) => {
                 .save()
                 .then((item) => {})
                 .catch((error) => {
-                    res.json(error);
+                    res.status(500).json(error);
                 });
 
             result.tickets.push(ticket._id);
 
             result
                 .save()
-                .then((item) => {
-                    res.json({ message: 'Ticket added!' });
+                .then((result) => {
+                    res.set('content-location', `/api/v1/tickets/${result._id}`);
+                    res.status(201).json({
+                        url: `/api/v1/tickets/${result._id}`,
+                        data: result,
+                    });
                 })
                 .catch((error) => {
-                    res.json(error);
+                    res.status(500).json(error);
                 });
         })
         .catch((error) => {
@@ -88,13 +96,15 @@ const patchTicket = (req, res) => {
 
     Ticket.findByIdAndUpdate(_id, { author: author, title: title, status: status, description: description }, (err, item) => {
         if (err) {
-            console.log(err);
+            res.status(500).json(err);
         } else {
-            console.log(item);
+            res.set('content-location', `/api/v1/tickets/${_id}`);
+            res.status(201).json({
+                url: `/api/v1/tickets/${_id}`,
+                data: item,
+            });
         }
     });
-
-    res.status(200).json({ message: 'item updated' });
 };
 
 const deleteTicket = (req, res) => {

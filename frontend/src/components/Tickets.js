@@ -104,7 +104,7 @@ const Tickets = (props) => {
 
     return (
         <>
-            <Container className="p-3">
+            <Container className="p-5">
                 {ticketsList.length ? (
                     <Container>
                         <TicketsTable
