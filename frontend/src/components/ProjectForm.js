@@ -7,6 +7,11 @@ const ProjectForm = (props) => {
     const [errors, setErrors] = useState({});
     const [showSuccessSubmission, setShowSuccessSubmission] = useState(false);
 
+    /**
+     * Set specific field to value once there's a change on input
+     * @param {String} field Field name
+     * @param value Value that field will be set to
+     */
     const setField = (field, value) => {
         setProjectInfo({
             ...projectInfo,
@@ -38,6 +43,7 @@ const ProjectForm = (props) => {
     const handleProjectSubmission = (e) => {
         e.preventDefault();
 
+        // Validates data for the current state of projectInfo
         const errors = formDataValidation();
 
         if (Object.keys(errors).length > 0) {
@@ -46,6 +52,7 @@ const ProjectForm = (props) => {
             axios
                 .post('/api/v1/projects', projectInfo)
                 .then((result) => {
+                    // Informs that a project has been posted so that Projects Component can re-render
                     props.handleProjectPosted();
                     setShowSuccessSubmission(true);
                 })

@@ -14,6 +14,12 @@ const Tickets = (props) => {
     const [postSuccess, setPostSuccess] = useState(false);
     const [patchSuccess, setPatchSuccess] = useState(false);
 
+    /**
+     * If props.project has a project selected: Makes a GET request to all tickets in current project
+     *
+     * It'll also be re-rendered once that a new project is selected
+     * or a ticket has been edited/deleted
+     */
     useEffect(() => {
         if (props.project) {
             axios
@@ -62,6 +68,7 @@ const Tickets = (props) => {
     };
 
     const handleTicketSubmission = (event, ticket, method) => {
+        // In case TicketForm is being used to add a new ticket:
         if (method == 'post') {
             let errors = dataValidation(ticket);
             if (Object.keys(errors).length > 0) {
@@ -77,6 +84,7 @@ const Tickets = (props) => {
                         console.log(error);
                     });
             }
+            // In case TicketForm is being used to edit a ticket:
         } else if (method == 'patch') {
             let errors = dataValidation(ticket);
             if (Object.keys(errors).length > 0) {
@@ -95,6 +103,9 @@ const Tickets = (props) => {
         }
     };
 
+    /**
+     * Informs that a ticket has been deleted so the ticket list can be re-rendered
+     */
     const handleTicketDelete = () => {
         setTicketChanged(!ticketChanged);
     };
