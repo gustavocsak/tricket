@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Container, Form, Alert, CloseButton, Button } from 'react-bootstrap';
 
 const TicketForm = (props) => {
-    const [changedInfo, setChangedInfo] = useState(false);
     const [ticket, setTicket] = useState({});
 
     const setField = (field, value) => {
-        setChangedInfo(true);
         setTicket({
             ...ticket,
             [field]: value,

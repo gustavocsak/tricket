@@ -1,8 +1,5 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
-import { Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { Row, Col, Button, Form, Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProjectModal from './ProjectModal';
@@ -35,7 +32,6 @@ const Projects = (props) => {
         axios
             .delete(`/api/v1/projects/${props.project}`)
             .then((result) => {
-                console.log(result);
                 props.setProjectSelected('');
                 setProjectDeletion(!projectDeletion);
                 setShowProjectModal(false);
@@ -67,7 +63,7 @@ const Projects = (props) => {
                     </Col>
 
                     <Col md="auto">
-                        <Button className="me-3" variant="primary" onClick={() => props.setShowProjectForm(true)}>
+                        <Button className="me-3 mb-2" variant="primary" onClick={() => props.setShowProjectForm(true)}>
                             Add new project
                         </Button>
                         <Button variant="danger" onClick={handleDeleteClick}>

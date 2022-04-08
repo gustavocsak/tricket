@@ -29,7 +29,6 @@ const TicketsTable = (props) => {
             .delete(`/api/v1/tickets/${ticket._id}`)
             .then((result) => {
                 props.handleTicketDelete();
-                console.log(result);
             })
             .catch((error) => {
                 console.log(error);

@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import TicketForm from './TicketForm.js';
-import TicketProjectControl from './TicketControl.js';
 import TicketsTable from './TicketsTable.js';
 import TicketControl from './TicketControl.js';
 
@@ -68,7 +67,6 @@ const Tickets = (props) => {
             if (Object.keys(errors).length > 0) {
                 setPostErrors(errors);
             } else {
-                console.log(ticket);
                 axios
                     .post(`/api/v1/projects/${props.project}/tickets`, ticket)
                     .then((result) => {
@@ -89,7 +87,6 @@ const Tickets = (props) => {
                     .then((result) => {
                         setPatchSuccess(true);
                         setTicketChanged(!ticketChanged);
-                        console.log(result);
                     })
                     .catch((error) => {
                         console.log(error);
