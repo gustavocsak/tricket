@@ -20,7 +20,6 @@ const ProjectModal = (props) => {
 
     return (
         <Container>
-            {console.log('here')}
             <Modal show={props.show} onHide={props.onHide}>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete Project</Modal.Title>
