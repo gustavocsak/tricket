@@ -100,10 +100,25 @@ const patchTicket = (req, res) => {
     res.status(200).json({ message: 'item updated' });
 };
 
+const deleteTicket = (req, res) => {
+    const id = req.params.id;
+
+    Ticket.findByIdAndDelete(id, (err, item) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json(err);
+        } else {
+            console.log(item);
+            res.status(200).json({ message: 'item deleted' });
+        }
+    });
+};
+
 module.exports = {
     getProjects,
     postProject,
     getTickets,
     postTicket,
     patchTicket,
+    deleteTicket,
 };

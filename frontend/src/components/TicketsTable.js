@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import TicketModal from './TicketModal';
+import axios from 'axios';
 
 const TicketsTable = (props) => {
     const fields = ['id', 'title', 'author', 'status', 'action'];
@@ -21,6 +22,18 @@ const TicketsTable = (props) => {
     const handleAction = (ticket) => {
         setTicket(ticket);
         setShowModal(!showModal);
+    };
+
+    const handleDelete = (ticket) => {
+        axios
+            .delete(`/api/v1/tickets/${ticket._id}`)
+            .then((result) => {
+                props.handleTicketDelete();
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const handleCloseModal = () => {
@@ -77,7 +90,7 @@ const TicketsTable = (props) => {
                                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
                                         </svg>
                                     </Button>
-                                    <Button type="button" className="btn btn-danger">
+                                    <Button type="button" className="btn btn-danger" onClick={() => handleDelete(ticket)}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
