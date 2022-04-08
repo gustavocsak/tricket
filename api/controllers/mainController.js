@@ -76,10 +76,10 @@ const postTicket = (req, res, next) => {
             result
                 .save()
                 .then((result) => {
-                    res.set('content-location', `/api/v1/tickets/${result._id}`);
+                    res.set('content-location', `/api/v1/tickets/${ticket._id}`);
                     res.status(201).json({
-                        url: `/api/v1/tickets/${result._id}`,
-                        data: result,
+                        url: `/api/v1/tickets/${ticket._id}`,
+                        data: ticket,
                     });
                 })
                 .catch((error) => {
