@@ -1,15 +1,10 @@
+let path = require('path');
 const router = require('express').Router({ mergeParams: true });
 
-const {
-    getProjects,
-    postProject,
-    getTickets,
-    postTicket,
-    patchTicket,
-    deleteTicket,
-    getProject,
-    deleteProject,
-} = require('../controllers/mainController.js');
+const { getProjects, postProject, getTickets, postTicket, patchTicket, deleteTicket, getProject, deleteProject } = require(path.join(
+    __dirname,
+    '../controllers/mainController.js'
+));
 
 router.get('/projects', getProjects);
 router.get('/projects/:id', getProject);
