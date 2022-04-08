@@ -9,6 +9,15 @@ const Projects = (props) => {
     const [projectDeletion, setProjectDeletion] = useState(false);
     const [showProjectModal, setShowProjectModal] = useState(false);
 
+    /**
+     * Initial GET request for project dropdown menu
+     *
+     * Requests will be made on:
+     * first render
+     * once a new project is posted
+     * once a project is deleted
+     *
+     */
     useEffect(() => {
         axios
             .get('/api/v1/projects')
@@ -20,6 +29,12 @@ const Projects = (props) => {
             });
     }, [props.projectPosted, projectDeletion]);
 
+    /**
+     * Handles delete project button
+     *
+     * It'll simply set the project deletion modal to be displayed
+     *
+     */
     const handleDeleteClick = () => {
         setShowProjectModal(true);
     };
@@ -28,6 +43,14 @@ const Projects = (props) => {
         setShowProjectModal(false);
     };
 
+    /**
+     * Makes a DELETE request once confirm button on project deletion modal is pressed
+     *
+     * It'll also trigger a re-render for getting list of projects
+     * set the modal to not be displayed
+     * and set the project selected to none
+     *
+     */
     const handleDeleteProject = () => {
         axios
             .delete(`/api/v1/projects/${props.project}`)
@@ -63,7 +86,7 @@ const Projects = (props) => {
                     </Col>
 
                     <Col md="auto">
-                        <Button className="me-3 mb-2" variant="primary" onClick={() => props.setShowProjectForm(true)}>
+                        <Button className="me-3" variant="primary" onClick={() => props.setShowProjectForm(true)}>
                             Add new project
                         </Button>
                         <Button variant="danger" onClick={handleDeleteClick}>
