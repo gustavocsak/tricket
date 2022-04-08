@@ -5,9 +5,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import ProjectModal from './ProjectModal';
 
 const Projects = (props) => {
     const [projectList, setProjectList] = useState([]);
+    const [projectDeletion, setProjectDeletion] = useState(false);
+    const [showProjectModal, setShowProjectModal] = useState(false);
 
     useEffect(() => {
         axios
@@ -18,11 +21,34 @@ const Projects = (props) => {
             .catch((error) => {
                 console.log(error);
             });
-    }, [props.projectPosted]);
+    }, [props.projectPosted, projectDeletion]);
+
+    const handleDeleteClick = () => {
+        setShowProjectModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowProjectModal(false);
+    };
+
+    const handleDeleteProject = () => {
+        axios
+            .delete(`/api/v1/projects/${props.project}`)
+            .then((result) => {
+                console.log(result);
+                props.setProjectSelected('');
+                setProjectDeletion(!projectDeletion);
+                setShowProjectModal(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <>
             <Container className="p-5">
+                {console.log('here2')}
                 <Row>
                     <Col md="auto mb-2 mb-md-0">
                         <h3>Project:</h3>
@@ -41,11 +67,23 @@ const Projects = (props) => {
                     </Col>
 
                     <Col md="auto">
-                        <Button variant="primary" onClick={() => props.setShowProjectForm(true)}>
+                        <Button className="me-3" variant="primary" onClick={() => props.setShowProjectForm(true)}>
                             Add new project
+                        </Button>
+                        <Button variant="danger" onClick={handleDeleteClick}>
+                            Delete project
                         </Button>
                     </Col>
                 </Row>
+
+                <ProjectModal
+                    handleDeleteProject={handleDeleteProject}
+                    setProjectDeletion={setProjectDeletion}
+                    projectDeletion={projectDeletion}
+                    show={showProjectModal}
+                    onHide={handleCloseModal}
+                    project={props.project}
+                />
             </Container>
         </>
     );

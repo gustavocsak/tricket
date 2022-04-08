@@ -16,7 +16,12 @@ const App = (props) => {
     return (
         <>
             <Header />
-            <Projects projectPosted={projectPosted} setProjectSelected={setProjectSelected} setShowProjectForm={setShowProjectForm} />
+            <Projects
+                project={projectSelected}
+                projectPosted={projectPosted}
+                setProjectSelected={setProjectSelected}
+                setShowProjectForm={setShowProjectForm}
+            />
             {showProjectForm ? <ProjectForm handleProjectPosted={handleProjectPosted} setShowProjectForm={setShowProjectForm} /> : <></>}
             {projectSelected ? <Tickets project={projectSelected} /> : <></>}
         </>

@@ -12,6 +12,18 @@ const getProjects = (req, res, next) => {
         });
 };
 
+const getProject = (req, res) => {
+    const id = req.params.id;
+    Project.findById(id)
+        .exec()
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((error) => {
+            res.status(500).json(error);
+        });
+};
+
 const postProject = (req, res, next) => {
     let project = new Project(req.body);
 
@@ -24,21 +36,6 @@ const postProject = (req, res, next) => {
             res.status(500).json(error);
         });
 };
-
-// const getTicket = (req, res) => {
-//     const id = req.params.id;
-
-//     Ticket.findById(id)
-//         .exec()
-//         .then((ticket) => {
-//             console.log(ticket);
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//         });
-
-//     res.status(200).json({ message: 'got your tiicket' });
-// };
 
 const getTickets = (req, res, next) => {
     const id = req.params.id;
@@ -63,9 +60,7 @@ const postTicket = (req, res, next) => {
 
             ticket
                 .save()
-                .then((item) => {
-                    // console.log(item);
-                })
+                .then((item) => {})
                 .catch((error) => {
                     res.json(error);
                 });
@@ -114,11 +109,27 @@ const deleteTicket = (req, res) => {
     });
 };
 
+const deleteProject = (req, res) => {
+    const id = req.params.id;
+
+    Project.findByIdAndDelete(id, (err, item) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json(err);
+        } else {
+            console.log(item);
+            res.status(200).json({ message: 'item deleted' });
+        }
+    });
+};
+
 module.exports = {
     getProjects,
+    getProject,
     postProject,
     getTickets,
     postTicket,
     patchTicket,
     deleteTicket,
+    deleteProject,
 };

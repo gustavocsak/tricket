@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import TicketForm from './TicketForm.js';
-import TicketProjectControl from './TicketProjectControl.js';
+import TicketProjectControl from './TicketControl.js';
 import TicketsTable from './TicketsTable.js';
+import TicketControl from './TicketControl.js';
 
 const Tickets = (props) => {
     const [ticketsList, setTicketsList] = useState([]);
@@ -118,17 +119,20 @@ const Tickets = (props) => {
                         />
                     </Container>
                 ) : (
-                    <h3>No tickets to display</h3>
+                    <Container className="mb-5">
+                        <h3>No tickets to display</h3>
+                    </Container>
                 )}
             </Container>
             <Container>
-                <TicketProjectControl setShowTicketForm={setShowTicketForm} />
+                <TicketControl setShowTicketForm={setShowTicketForm} />
             </Container>
             <Container>
                 {showTicketForm ? (
                     <TicketForm
                         handleTicketSubmission={handleTicketSubmission}
                         handleCloseForm={handleCloseAddForm}
+                        setShowTicketForm={setShowTicketForm}
                         errors={postErrors}
                         success={postSuccess}
                         method="post"
