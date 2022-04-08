@@ -112,10 +112,8 @@ const deleteTicket = (req, res) => {
 
     Ticket.findByIdAndDelete(id, (err, item) => {
         if (err) {
-            console.log(err);
             res.status(500).json(err);
         } else {
-            console.log(item);
             res.status(200).json({ message: 'item deleted' });
         }
     });
@@ -126,10 +124,8 @@ const deleteProject = (req, res) => {
 
     Project.findByIdAndDelete(id, (err, item) => {
         if (err) {
-            console.log(err);
             res.status(500).json(err);
         } else {
-            console.log(item);
             res.status(200).json({ message: 'item deleted' });
         }
     });
