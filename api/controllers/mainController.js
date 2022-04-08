@@ -1,5 +1,7 @@
-const { Project } = require('../../database/models/Project.js');
-const { Ticket } = require('../../database/models/Ticket.js');
+let path = require('path');
+
+const { Project } = require(path.join(__dirname, '..', '..', 'database', 'models', 'Project.js'));
+const { Ticket } = require(path.join(__dirname, '..', '..', 'database', 'models', 'Ticket.js'));
 
 const getProjects = (req, res, next) => {
     Project.find({})
