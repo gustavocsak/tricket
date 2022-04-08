@@ -18,5 +18,5 @@ db.on('open', () => {
     const server = app.listen(process.env.PORT || 3000, () => console.log('listening'));
 });
 
-const router = require(path.join(__dirname, 'index.js'));
+const router = require(path.join(__dirname, 'routes/index.js'));
 app.use('/api/v1', router);
