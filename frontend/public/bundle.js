@@ -161,6 +161,12 @@ var ProjectForm = function ProjectForm(props) {
       _useState6 = _slicedToArray(_useState5, 2),
       showSuccessSubmission = _useState6[0],
       setShowSuccessSubmission = _useState6[1];
+  /**
+   * Set specific field to value once there's a change on input
+   * @param {String} field Field name
+   * @param value Value that field will be set to
+   */
+
 
   var setField = function setField(field, value) {
     setProjectInfo(_objectSpread(_objectSpread({}, projectInfo), {}, _defineProperty({}, field, value)));
@@ -188,13 +194,15 @@ var ProjectForm = function ProjectForm(props) {
   };
 
   var handleProjectSubmission = function handleProjectSubmission(e) {
-    e.preventDefault();
+    e.preventDefault(); // Validates data for the current state of projectInfo
+
     var errors = formDataValidation();
 
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/v1/projects', projectInfo).then(function (result) {
+        // Informs that a project has been posted so that Projects Component can re-render
         props.handleProjectPosted();
         setShowSuccessSubmission(true);
       })["catch"](function (error) {
@@ -301,6 +309,12 @@ var ProjectModal = function ProjectModal(props) {
       _useState2 = _slicedToArray(_useState, 2),
       projectDeleted = _useState2[0],
       setProjectDeleted = _useState2[1];
+  /**
+   * Makes a GET request to obtain project to be deleted information
+   * (only on first render)
+   *
+   */
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (props.project) {
@@ -385,6 +399,16 @@ var Projects = function Projects(props) {
       _useState6 = _slicedToArray(_useState5, 2),
       showProjectModal = _useState6[0],
       setShowProjectModal = _useState6[1];
+  /**
+   * Initial GET request for project dropdown menu
+   *
+   * Requests will be made on:
+   * first render
+   * once a new project is posted
+   * once a project is deleted
+   *
+   */
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/v1/projects').then(function (result) {
@@ -393,6 +417,12 @@ var Projects = function Projects(props) {
       console.log(error);
     });
   }, [props.projectPosted, projectDeletion]);
+  /**
+   * Handles delete project button
+   *
+   * It'll simply set the project deletion modal to be displayed
+   *
+   */
 
   var handleDeleteClick = function handleDeleteClick() {
     setShowProjectModal(true);
@@ -401,6 +431,15 @@ var Projects = function Projects(props) {
   var handleCloseModal = function handleCloseModal() {
     setShowProjectModal(false);
   };
+  /**
+   * Makes a DELETE request once confirm button on project deletion modal is pressed
+   *
+   * It'll also trigger a re-render for getting list of projects
+   * set the modal to not be displayed
+   * and set the project selected to none
+   *
+   */
+
 
   var handleDeleteProject = function handleDeleteProject() {
     axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/api/v1/projects/".concat(props.project)).then(function (result) {
@@ -432,7 +471,7 @@ var Projects = function Projects(props) {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
     md: "auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    className: "me-3 mb-2",
+    className: "me-3",
     variant: "primary",
     onClick: function onClick() {
       return props.setShowProjectForm(true);
@@ -529,10 +568,21 @@ var TicketForm = function TicketForm(props) {
       _useState2 = _slicedToArray(_useState, 2),
       ticket = _useState2[0],
       setTicket = _useState2[1];
+  /**
+   * Set specific field to value once there's a change on input
+   * @param {String} field Field name
+   * @param value Value that field will be set to
+   */
+
 
   var setField = function setField(field, value) {
     setTicket(_objectSpread(_objectSpread({}, ticket), {}, _defineProperty({}, field, value)));
   };
+  /**
+   * In case the form is being used to edit a ticket:
+   *      A initial ticket information will be set so the user can visualize current information about the ticket
+   */
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setTicket(_objectSpread({}, props.ticketToEdit));
@@ -768,6 +818,13 @@ var Tickets = function Tickets(props) {
       _useState14 = _slicedToArray(_useState13, 2),
       patchSuccess = _useState14[0],
       setPatchSuccess = _useState14[1];
+  /**
+   * If props.project has a project selected: Makes a GET request to all tickets in current project
+   *
+   * It'll also be re-rendered once that a new project is selected
+   * or a ticket has been edited/deleted
+   */
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (props.project) {
@@ -815,6 +872,7 @@ var Tickets = function Tickets(props) {
   };
 
   var handleTicketSubmission = function handleTicketSubmission(event, ticket, method) {
+    // In case TicketForm is being used to add a new ticket:
     if (method == 'post') {
       var errors = dataValidation(ticket);
 
@@ -827,7 +885,8 @@ var Tickets = function Tickets(props) {
         })["catch"](function (error) {
           console.log(error);
         });
-      }
+      } // In case TicketForm is being used to edit a ticket:
+
     } else if (method == 'patch') {
       var _errors = dataValidation(ticket);
 
@@ -843,6 +902,10 @@ var Tickets = function Tickets(props) {
       }
     }
   };
+  /**
+   * Informs that a ticket has been deleted so the ticket list can be re-rendered
+   */
+
 
   var handleTicketDelete = function handleTicketDelete() {
     setTicketChanged(!ticketChanged);
@@ -939,6 +1002,11 @@ var TicketsTable = function TicketsTable(props) {
       _useState10 = _slicedToArray(_useState9, 2),
       initialMount = _useState10[0],
       setInitialMount = _useState10[1];
+  /**
+   * Used for re-setting the edit form after submitted (not in the initial mount)
+   * It'll reset the readOnly property and editing property
+   */
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (!initialMount) {
@@ -952,6 +1020,12 @@ var TicketsTable = function TicketsTable(props) {
     setTicket(ticket);
     setShowModal(!showModal);
   };
+  /**
+   * Handles the click on the delete button on ticket row
+   * Sends a DELETE request to the api and calls handleTicketDelete to inform that a ticket has been changed/deleted
+   * @param {Object} ticket specific ticket to be deleted
+   */
+
 
   var handleDelete = function handleDelete(ticket) {
     axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("/api/v1/tickets/".concat(ticket._id)).then(function (result) {
@@ -960,6 +1034,13 @@ var TicketsTable = function TicketsTable(props) {
       console.log(error);
     });
   };
+  /**
+   * Handles modal being closed or exited
+   * It'll reset modal to be read only, set editing to false, set success message to false and set patch errors to an empty object
+   * (editing is used to conditionally render the correct buttons on TicketForm component)
+   *
+   */
+
 
   var handleCloseModal = function handleCloseModal() {
     setReadOnly(true);
@@ -968,12 +1049,24 @@ var TicketsTable = function TicketsTable(props) {
     props.setPatchErrors({});
     setShowModal(!showModal);
   };
+  /**
+   * Handles edit button click on edit form
+   * Enables changes to ticket information by setting readOnly to false
+   *
+   */
+
 
   var handleEditButton = function handleEditButton() {
     props.setPatchErrors({});
     setReadOnly(false);
     setEditing(true);
   };
+  /**
+   * Handles confirmChanges click on edit form
+   * Re-sets edit form to initial shape (read only and no editing)
+   * Displays success message if request was successful
+   */
+
 
   var handleConfirmChanges = function handleConfirmChanges() {
     setReadOnly(true);

@@ -4,6 +4,11 @@ import { Container, Form, Alert, CloseButton, Button } from 'react-bootstrap';
 const TicketForm = (props) => {
     const [ticket, setTicket] = useState({});
 
+    /**
+     * Set specific field to value once there's a change on input
+     * @param {String} field Field name
+     * @param value Value that field will be set to
+     */
     const setField = (field, value) => {
         setTicket({
             ...ticket,
@@ -11,6 +16,10 @@ const TicketForm = (props) => {
         });
     };
 
+    /**
+     * In case the form is being used to edit a ticket:
+     *      A initial ticket information will be set so the user can visualize current information about the ticket
+     */
     useEffect(() => {
         setTicket({ ...props.ticketToEdit });
     }, [props.editing]);

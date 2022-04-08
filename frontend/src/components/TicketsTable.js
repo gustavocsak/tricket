@@ -11,6 +11,10 @@ const TicketsTable = (props) => {
     const [editing, setEditing] = useState(false);
     const [initialMount, setInitialMount] = useState(true);
 
+    /**
+     * Used for re-setting the edit form after submitted (not in the initial mount)
+     * It'll reset the readOnly property and editing property
+     */
     useEffect(() => {
         if (!initialMount) {
             handleConfirmChanges();
@@ -24,6 +28,11 @@ const TicketsTable = (props) => {
         setShowModal(!showModal);
     };
 
+    /**
+     * Handles the click on the delete button on ticket row
+     * Sends a DELETE request to the api and calls handleTicketDelete to inform that a ticket has been changed/deleted
+     * @param {Object} ticket specific ticket to be deleted
+     */
     const handleDelete = (ticket) => {
         axios
             .delete(`/api/v1/tickets/${ticket._id}`)
@@ -35,6 +44,12 @@ const TicketsTable = (props) => {
             });
     };
 
+    /**
+     * Handles modal being closed or exited
+     * It'll reset modal to be read only, set editing to false, set success message to false and set patch errors to an empty object
+     * (editing is used to conditionally render the correct buttons on TicketForm component)
+     *
+     */
     const handleCloseModal = () => {
         setReadOnly(true);
         setEditing(false);
@@ -43,12 +58,22 @@ const TicketsTable = (props) => {
         setShowModal(!showModal);
     };
 
+    /**
+     * Handles edit button click on edit form
+     * Enables changes to ticket information by setting readOnly to false
+     *
+     */
     const handleEditButton = () => {
         props.setPatchErrors({});
         setReadOnly(false);
         setEditing(true);
     };
 
+    /**
+     * Handles confirmChanges click on edit form
+     * Re-sets edit form to initial shape (read only and no editing)
+     * Displays success message if request was successful
+     */
     const handleConfirmChanges = () => {
         setReadOnly(true);
         setEditing(false);

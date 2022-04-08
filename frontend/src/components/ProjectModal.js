@@ -5,6 +5,11 @@ import { Container, Modal, Button } from 'react-bootstrap';
 const ProjectModal = (props) => {
     const [projectDeleted, setProjectDeleted] = useState({});
 
+    /**
+     * Makes a GET request to obtain project to be deleted information
+     * (only on first render)
+     *
+     */
     useEffect(() => {
         if (props.project) {
             axios
